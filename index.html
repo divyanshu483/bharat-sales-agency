@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat Sales Agency – Tauru's #1 Mobile Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@300;400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8272A;
+    --dark-red: #B01C1F;
+    --gold: #F5A623;
+    --bg: #0A0A0F;
+    --surface: #111118;
+    --card: #18181F;
+    --border: rgba(248,166,35,0.18);
+    --text: #F0EDE8;
+    --muted: #8A8880;
+    --white: #FFFFFF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+    background: rgba(10,10,15,0.88);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 36px; height: 36px;
+    background: var(--red);
+    border-radius: 8px;
+    display: grid; place-items: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 20px; color: #fff;
+    letter-spacing: 1px;
+  }
+  .nav-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1.15rem;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+  .nav-title span { color: var(--gold); }
+  .nav-links {
+    display: flex; gap: 28px; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 500; font-size: 0.95rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--red);
+    color: #fff !important;
+    padding: 7px 18px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+  }
+  .nav-cta:hover { background: var(--dark-red); color: #fff !important; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex; align-items: center;
+    padding: 80px 5% 60px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 70% 50%, rgba(232,39,42,0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(245,166,35,0.07) 0%, transparent 60%),
+      linear-gradient(160deg, #0A0A0F 0%, #12080A 100%);
+  }
+  .hero-grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(245,166,35,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,166,35,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 600px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(232,39,42,0.12);
+    border: 1px solid rgba(232,39,42,0.3);
+    color: var(--gold);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 50px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+  .hero-heading {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    margin-bottom: 20px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .hero-heading em {
+    font-style: normal;
+    color: var(--red);
+    -webkit-text-stroke: 0px;
+  }
+  .hero-heading .outline {
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.25);
+    color: transparent;
+  }
+  .hero-sub {
+    font-size: 1.05rem; font-weight: 300;
+    color: var(--muted); line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 36px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--red);
+    color: #fff;
+    padding: 13px 30px;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 22px rgba(232,39,42,0.35);
+  }
+  .btn-primary:hover { background: var(--dark-red); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(232,39,42,0.45); }
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 1rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid rgba(245,166,35,0.4);
+    transition: border-color .2s, color .2s, transform .15s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--white); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 36px; margin-top: 52px;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+  .stat-item { text-align: left; }
+  .stat-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.4rem; color: var(--white);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--red); }
+  .stat-label {
+    font-size: 0.72rem; color: var(--muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  .hero-phone-visual {
+    position: absolute; right: 6%; top: 50%;
+    transform: translateY(-50%);
+    display: flex; gap: 18px; align-items: flex-end;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+  .phone-card-visual {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px 14px;
+    width: 130px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    transition: transform .3s;
+  }
+  .phone-card-visual:hover { transform: translateY(-8px); }
+  .phone-card-visual.tall { height: 210px; display: flex; flex-direction: column; justify-content: center; }
+  .phone-card-visual.short { height: 170px; display: flex; flex-direction: column; justify-content: center; }
+  .phone-emoji { font-size: 2.6rem; margin-bottom: 8px; }
+  .phone-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.85rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+  .phone-name { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── BRANDS BAR ── */
+  .brands-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 5%;
+    overflow: hidden;
+  }
+  .brands-scroll {
+    display: flex; gap: 48px; align-items: center;
+    white-space: nowrap;
+    animation: scrollBrands 22s linear infinite;
+  }
+  .brand-tag {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color .2s;
+    flex-shrink: 0;
+  }
+  .brand-tag:hover { color: var(--gold); }
+  @keyframes scrollBrands {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 80px 5%; }
+  .section-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--red);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    color: var(--white);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .section-sub {
+    color: var(--muted); font-size: 0.95rem; line-height: 1.7;
+    max-width: 520px; margin-bottom: 48px;
+  }
+
+  /* ── PHONES GRID ── */
+  #phones { background: var(--bg); }
+  .phones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .phone-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 18px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .25s, transform .25s, box-shadow .25s;
+    position: relative; overflow: hidden;
+  }
+  .phone-item::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,39,42,0.07), transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+  .phone-item:hover { border-color: rgba(232,39,42,0.45); transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+  .phone-item:hover::after { opacity: 1; }
+  .phone-item-emoji { font-size: 2.8rem; margin-bottom: 14px; }
+  .phone-item-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .phone-item-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 1rem;
+    color: var(--white); line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .phone-item-spec {
+    font-size: 0.72rem; color: var(--muted);
+    margin-bottom: 12px; line-height: 1.5;
+  }
+  .phone-item-price {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1.1rem;
+    color: var(--red);
+  }
+  .badge-new {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px;
+  }
+  .badge-hot {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--gold);
+    color: #000;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  /* ── WHY US ── */
+  #why { background: var(--surface); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+  }
+  .why-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px 24px;
+    transition: border-color .25s, transform .25s;
+  }
+  .why-card:hover { border-color: rgba(245,166,35,0.35); transform: translateY(-4px); }
+  .why-icon {
+    font-size: 2.2rem; margin-bottom: 16px;
+    display: block;
+  }
+  .why-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1.1rem;
+    color: var(--white); margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .why-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── MAP / LOCATION ── */
+  #location { background: var(--bg); }
+  .location-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px; align-items: start;
+  }
+  .location-info { }
+  .contact-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 22px;
+  }
+  .contact-icon {
+    width: 40px; height: 40px;
+    background: rgba(232,39,42,0.12);
+    border: 1px solid rgba(232,39,42,0.25);
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-size: 1.2rem; flex-shrink: 0;
+    color: var(--red);
+  }
+  .contact-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.72rem; font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .contact-value {
+    font-size: 0.95rem; color: var(--white);
+    font-weight: 400; line-height: 1.5;
+  }
+  .contact-value a { color: var(--gold); text-decoration: none; }
+  .contact-value a:hover { text-decoration: underline; }
+  .hours-grid {
+    display: grid; grid-template-columns: auto 1fr; gap: 4px 16px;
+    font-size: 0.83rem;
+  }
+  .hours-day { color: var(--muted); }
+  .hours-time { color: var(--white); font-weight: 500; }
+
+  .map-embed {
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+  }
+  .map-embed iframe {
+    width: 100%; height: 400px;
+    display: block; border: none;
+    filter: grayscale(30%) contrast(1.05);
+  }
+  .map-directions-btn {
+    display: block;
+    background: var(--red);
+    color: #fff;
+    text-align: center;
+    padding: 13px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.95rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .map-directions-btn:hover { background: var(--dark-red); }
+
+  /* ── RATING BANNER ── */
+  .rating-banner {
+    background: linear-gradient(135deg, rgba(232,39,42,0.1) 0%, rgba(245,166,35,0.07) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    display: flex; align-items: center; gap: 20px;
+    margin-bottom: 36px;
+  }
+  .rating-stars { font-size: 1.6rem; }
+  .rating-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3rem; color: var(--gold); line-height: 1;
+  }
+  .rating-count { font-size: 0.82rem; color: var(--muted); }
+  .rating-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 1rem; color: var(--white);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 48px 5% 28px;
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 32px; flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .footer-brand .nav-title { font-size: 1.4rem; margin-bottom: 8px; }
+  .footer-desc { font-size: 0.83rem; color: var(--muted); max-width: 280px; line-height: 1.65; }
+  .footer-col h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    font-size: 0.88rem; color: var(--muted);
+    text-decoration: none; transition: color .2s;
+  }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-size: 0.78rem; color: var(--muted);
+  }
+  .footer-bottom span { color: var(--red); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-phone-visual { display: none; }
+    .location-wrapper { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .hero-stats { gap: 22px; }
+    .phones-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-logo-icon">B</div>
+    <div class="nav-title">Bharat <span>Sales</span> Agency</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#phones">Phones</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#location">Visit Store</a></li>
+    <li><a href="tel:+919671115715" class="nav-cta">Call Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-badge">📍 Tauru, Haryana &nbsp;·&nbsp; Est. Since Years</div>
+    <h1 class="hero-heading">
+      Tauru's<br>
+      <em>No.1</em><br>
+      <span class="outline">Mobile Store</span>
+    </h1>
+    <p class="hero-sub">All major brands. Best prices. Expert service. Your one-stop destination for the latest smartphones in Tauru, Haryana.</p>
+    <div class="hero-actions">
+      <a href="#phones" class="btn-primary">Browse Phones</a>
+      <a href="#location" class="btn-outline">📍 Find Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">50<span>+</span></div>
+        <div class="stat-label">Phone Models</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10<span>+</span></div>
+        <div class="stat-label">Top Brands</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4.1<span>★</span></div>
+        <div class="stat-label">Google Rating</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-phone-visual">
+    <div class="phone-card-visual short">
+      <div class="phone-emoji">📱</div>
+      <div class="phone-brand">Samsung</div>
+      <div class="phone-name">Galaxy S24</div>
+    </div>
+    <div class="phone-card-visual tall">
+      <div class="phone-emoji">📱</div>
+      <div class="phone-brand">Apple</div>
+      <div class="phone-name">iPhone 15</div>
+    </div>
+    <div class="phone-card-visual short">
+      <div class="phone-emoji">📱</div>
+      <div class="phone-brand">OnePlus</div>
+      <div class="phone-name">12R</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS BAR -->
+<div class="brands-bar">
+  <div class="brands-scroll">
+    <span class="brand-tag">Apple</span>
+    <span class="brand-tag">Samsung</span>
+    <span class="brand-tag">OnePlus</span>
+    <span class="brand-tag">Xiaomi</span>
+    <span class="brand-tag">Redmi</span>
+    <span class="brand-tag">Realme</span>
+    <span class="brand-tag">Vivo</span>
+    <span class="brand-tag">OPPO</span>
+    <span class="brand-tag">iQOO</span>
+    <span class="brand-tag">Motorola</span>
+    <span class="brand-tag">Nokia</span>
+    <span class="brand-tag">Nothing</span>
+    <!-- duplicate for seamless loop -->
+    <span class="brand-tag">Apple</span>
+    <span class="brand-tag">Samsung</span>
+    <span class="brand-tag">OnePlus</span>
+    <span class="brand-tag">Xiaomi</span>
+    <span class="brand-tag">Redmi</span>
+    <span class="brand-tag">Realme</span>
+    <span class="brand-tag">Vivo</span>
+    <span class="brand-tag">OPPO</span>
+    <span class="brand-tag">iQOO</span>
+    <span class="brand-tag">Motorola</span>
+    <span class="brand-tag">Nokia</span>
+    <span class="brand-tag">Nothing</span>
+  </div>
+</div>
+
+<!-- PHONES GRID -->
+<section id="phones">
+  <div class="section-label">Our Collection</div>
+  <h2 class="section-title reveal">50+ Top Phones<br>In Stock</h2>
+  <p class="section-sub reveal">From budget-friendly to flagship — every major model available. Walk in and pick yours today.</p>
+
+  <div class="phones-grid">
+
+    <div class="phone-item reveal">
+      <span class="badge-new">New</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Apple</div>
+      <div class="phone-item-name">iPhone 15</div>
+      <div class="phone-item-spec">6.1" OLED · 48MP · A16 Bionic</div>
+      <div class="phone-item-price">₹79,900</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-new">New</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Apple</div>
+      <div class="phone-item-name">iPhone 15 Pro</div>
+      <div class="phone-item-spec">6.1" ProMotion · 48MP · A17 Pro</div>
+      <div class="phone-item-price">₹1,34,900</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy S24</div>
+      <div class="phone-item-spec">6.2" AMOLED · 50MP · Snapdragon 8 Gen 3</div>
+      <div class="phone-item-price">₹74,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy S24 Ultra</div>
+      <div class="phone-item-spec">6.8" QHD+ · 200MP · S Pen</div>
+      <div class="phone-item-price">₹1,29,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy A55</div>
+      <div class="phone-item-spec">6.6" Super AMOLED · 50MP · 5G</div>
+      <div class="phone-item-price">₹34,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy M34</div>
+      <div class="phone-item-spec">6.5" AMOLED · 50MP · 6000mAh</div>
+      <div class="phone-item-price">₹18,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-new">New</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OnePlus</div>
+      <div class="phone-item-name">OnePlus 12</div>
+      <div class="phone-item-spec">6.82" LTPO AMOLED · Snapdragon 8 Gen 3</div>
+      <div class="phone-item-price">₹64,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OnePlus</div>
+      <div class="phone-item-name">OnePlus 12R</div>
+      <div class="phone-item-spec">6.78" LTPO AMOLED · 50MP · Snapdragon 8 Gen 2</div>
+      <div class="phone-item-price">₹39,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OnePlus</div>
+      <div class="phone-item-name">Nord CE 4</div>
+      <div class="phone-item-spec">6.7" AMOLED · 50MP · Snapdragon 7s Gen 2</div>
+      <div class="phone-item-price">₹24,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Xiaomi</div>
+      <div class="phone-item-name">14 Ultra</div>
+      <div class="phone-item-spec">6.73" LTPO AMOLED · Leica Quad Camera</div>
+      <div class="phone-item-price">₹99,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Xiaomi</div>
+      <div class="phone-item-name">Xiaomi 14</div>
+      <div class="phone-item-spec">6.36" AMOLED · 50MP · Snapdragon 8 Gen 3</div>
+      <div class="phone-item-price">₹69,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Redmi</div>
+      <div class="phone-item-name">Note 13 Pro+</div>
+      <div class="phone-item-spec">6.67" AMOLED · 200MP · 120W Charging</div>
+      <div class="phone-item-price">₹29,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Redmi</div>
+      <div class="phone-item-name">Note 13 5G</div>
+      <div class="phone-item-spec">6.67" AMOLED · 108MP · 5G</div>
+      <div class="phone-item-price">₹17,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Redmi</div>
+      <div class="phone-item-name">Redmi 13C</div>
+      <div class="phone-item-spec">6.74" HD+ · 50MP · Helio G85</div>
+      <div class="phone-item-price">₹8,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-new">New</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Realme</div>
+      <div class="phone-item-name">GT 6</div>
+      <div class="phone-item-spec">6.78" LTPO AMOLED · Snapdragon 8s Gen 3</div>
+      <div class="phone-item-price">₹34,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Realme</div>
+      <div class="phone-item-name">Narzo 70 Pro</div>
+      <div class="phone-item-spec">6.67" AMOLED · 50MP · Dimensity 7050</div>
+      <div class="phone-item-price">₹19,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Realme</div>
+      <div class="phone-item-name">Realme C65</div>
+      <div class="phone-item-spec">6.67" LCD · 50MP · Helio G85</div>
+      <div class="phone-item-price">₹9,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-new">New</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Vivo</div>
+      <div class="phone-item-name">V30 Pro</div>
+      <div class="phone-item-spec">6.78" AMOLED · 50MP Zeiss Optics · 5G</div>
+      <div class="phone-item-price">₹43,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Vivo</div>
+      <div class="phone-item-name">T3x 5G</div>
+      <div class="phone-item-spec">6.72" IPS LCD · 50MP · Snapdragon 6 Gen 1</div>
+      <div class="phone-item-price">₹13,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OPPO</div>
+      <div class="phone-item-name">Reno 12 Pro</div>
+      <div class="phone-item-spec">6.7" AMOLED · 50MP AI Camera · 80W Charging</div>
+      <div class="phone-item-price">₹35,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OPPO</div>
+      <div class="phone-item-name">A79 5G</div>
+      <div class="phone-item-spec">6.72" IPS · 50MP · Dimensity 6020</div>
+      <div class="phone-item-price">₹16,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-new">New</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">iQOO</div>
+      <div class="phone-item-name">Neo 9 Pro</div>
+      <div class="phone-item-spec">6.78" LTPO AMOLED · Snapdragon 8 Gen 2 · 144Hz</div>
+      <div class="phone-item-price">₹34,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">iQOO</div>
+      <div class="phone-item-name">Z9 5G</div>
+      <div class="phone-item-spec">6.67" AMOLED · 50MP · Snapdragon 7 Gen 3</div>
+      <div class="phone-item-price">₹22,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Motorola</div>
+      <div class="phone-item-name">Edge 50 Pro</div>
+      <div class="phone-item-spec">6.7" pOLED · 50MP · Snapdragon 7s Gen 2</div>
+      <div class="phone-item-price">₹31,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Motorola</div>
+      <div class="phone-item-name">Moto G85</div>
+      <div class="phone-item-spec">6.67" pOLED · 50MP · Snapdragon 6s Gen 3</div>
+      <div class="phone-item-price">₹17,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Nothing</div>
+      <div class="phone-item-name">Phone (2a)</div>
+      <div class="phone-item-spec">6.7" AMOLED · 50MP · Dimensity 7200 Pro</div>
+      <div class="phone-item-price">₹23,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy F55 5G</div>
+      <div class="phone-item-spec">6.7" AMOLED · 50MP · Snapdragon 7 Gen 1</div>
+      <div class="phone-item-price">₹26,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Redmi</div>
+      <div class="phone-item-name">Redmi 12 5G</div>
+      <div class="phone-item-spec">6.79" IPS · 50MP · Snapdragon 4 Gen 2</div>
+      <div class="phone-item-price">₹12,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Vivo</div>
+      <div class="phone-item-name">Y200 Pro</div>
+      <div class="phone-item-spec">6.78" AMOLED · 64MP · Snapdragon 695</div>
+      <div class="phone-item-price">₹22,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OnePlus</div>
+      <div class="phone-item-name">Nord CE 3 Lite</div>
+      <div class="phone-item-spec">6.72" IPS LCD · 108MP · Snapdragon 695</div>
+      <div class="phone-item-price">₹17,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Realme</div>
+      <div class="phone-item-name">Realme 12 Pro+</div>
+      <div class="phone-item-spec">6.7" AMOLED · 50MP Periscope Zoom · 5G</div>
+      <div class="phone-item-price">₹27,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Nokia</div>
+      <div class="phone-item-name">Nokia G42 5G</div>
+      <div class="phone-item-spec">6.56" IPS · 50MP · Snapdragon 480+ · Repairable</div>
+      <div class="phone-item-price">₹16,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy Z Flip 5</div>
+      <div class="phone-item-spec">6.7" Foldable AMOLED · Snapdragon 8 Gen 2</div>
+      <div class="phone-item-price">₹99,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Redmi</div>
+      <div class="phone-item-name">POCO X6 Pro</div>
+      <div class="phone-item-spec">6.67" AMOLED · 64MP · Dimensity 8300-Ultra</div>
+      <div class="phone-item-price">₹26,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Redmi</div>
+      <div class="phone-item-name">POCO M6 Pro</div>
+      <div class="phone-item-spec">6.67" AMOLED · 64MP · Helio G99 Ultra</div>
+      <div class="phone-item-price">₹13,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">iQOO</div>
+      <div class="phone-item-name">iQOO 12</div>
+      <div class="phone-item-spec">6.78" LTPO AMOLED · Snapdragon 8 Gen 3 · 144Hz</div>
+      <div class="phone-item-price">₹52,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OPPO</div>
+      <div class="phone-item-name">Find X7 Pro</div>
+      <div class="phone-item-spec">6.82" LTPO AMOLED · Hasselblad Tuning · 5G</div>
+      <div class="phone-item-price">₹84,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Motorola</div>
+      <div class="phone-item-name">Razr 50 Ultra</div>
+      <div class="phone-item-spec">6.9" pOLED Foldable · Snapdragon 8s Gen 3</div>
+      <div class="phone-item-price">₹99,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Vivo</div>
+      <div class="phone-item-name">X100 Pro</div>
+      <div class="phone-item-spec">6.78" LTPO AMOLED · Zeiss Telephoto · Dimensity 9300</div>
+      <div class="phone-item-price">₹89,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Realme</div>
+      <div class="phone-item-name">Narzo N65</div>
+      <div class="phone-item-spec">6.67" IPS · 50MP · Helio G85 · 5000mAh</div>
+      <div class="phone-item-price">₹9,499</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy A35</div>
+      <div class="phone-item-spec">6.6" Super AMOLED · 50MP · Exynos 1380</div>
+      <div class="phone-item-price">₹24,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Apple</div>
+      <div class="phone-item-name">iPhone 14</div>
+      <div class="phone-item-spec">6.1" OLED · 12MP · A15 Bionic</div>
+      <div class="phone-item-price">₹64,900</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OnePlus</div>
+      <div class="phone-item-name">Nord 4</div>
+      <div class="phone-item-spec">6.74" AMOLED · 50MP · Snapdragon 7+ Gen 3</div>
+      <div class="phone-item-price">₹29,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Xiaomi</div>
+      <div class="phone-item-name">Poco F6 Pro</div>
+      <div class="phone-item-spec">6.67" LTPO AMOLED · 64MP · Snapdragon 8 Gen 2</div>
+      <div class="phone-item-price">₹45,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Redmi</div>
+      <div class="phone-item-name">Note 13</div>
+      <div class="phone-item-spec">6.67" AMOLED · 108MP · Helio G99 Ultra</div>
+      <div class="phone-item-price">₹14,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-new">New</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Nothing</div>
+      <div class="phone-item-name">Nothing Phone (2)</div>
+      <div class="phone-item-spec">6.7" LTPO AMOLED · 50MP · Snapdragon 8+ Gen 1</div>
+      <div class="phone-item-price">₹44,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy M55</div>
+      <div class="phone-item-spec">6.7" Super AMOLED · 50MP · Snapdragon 7 Gen 1</div>
+      <div class="phone-item-price">₹24,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <span class="badge-hot">Hot</span>
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Vivo</div>
+      <div class="phone-item-name">V29 Pro</div>
+      <div class="phone-item-spec">6.78" AMOLED · 50MP · MediaTek Dimensity 8200</div>
+      <div class="phone-item-price">₹35,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Motorola</div>
+      <div class="phone-item-name">Moto G64</div>
+      <div class="phone-item-spec">6.5" IPS LCD · 50MP · Dimensity 7025 · 5G</div>
+      <div class="phone-item-price">₹13,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">OPPO</div>
+      <div class="phone-item-name">A3 Pro 5G</div>
+      <div class="phone-item-spec">6.67" AMOLED · 50MP · Dimensity 6300</div>
+      <div class="phone-item-price">₹18,999</div>
+    </div>
+
+    <div class="phone-item reveal">
+      <div class="phone-item-emoji">📱</div>
+      <div class="phone-item-brand">Samsung</div>
+      <div class="phone-item-name">Galaxy Z Fold 5</div>
+      <div class="phone-item-spec">7.6" Foldable · Snapdragon 8 Gen 2 · S Pen</div>
+      <div class="phone-item-price">₹1,54,999</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-label">Why Choose Us</div>
+  <h2 class="section-title reveal">Tauru Trusts<br>Bharat Sales</h2>
+  <p class="section-sub reveal">Over 200 happy Google reviewers can't be wrong. Here's what makes us Tauru's favourite phone store.</p>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <span class="why-icon">🏆</span>
+      <div class="why-title">All Top Brands</div>
+      <p class="why-desc">Apple, Samsung, OnePlus, Xiaomi, Realme, Vivo, OPPO and many more — all under one roof in Tauru.</p>
+    </div>
+    <div class="why-card reveal">
+      <span class="why-icon">💰</span>
+      <div class="why-title">Best Prices</div>
+      <p class="why-desc">Competitive pricing with no hidden charges. Get the best deal on your next smartphone without travelling to Gurugram.</p>
+    </div>
+    <div class="why-card reveal">
+      <span class="why-icon">🔧</span>
+      <div class="why-title">Repair Services</div>
+      <p class="why-desc">Expert mobile repair at reasonable rates. Screen replacements, battery swaps, software issues — we fix it all.</p>
+    </div>
+    <div class="why-card reveal">
+      <span class="why-icon">📦</span>
+      <div class="why-title">All Accessories</div>
+      <p class="why-desc">Cases, chargers, earphones, screen guards — full range of genuine accessories available in store.</p>
+    </div>
+    <div class="why-card reveal">
+      <span class="why-icon">💳</span>
+      <div class="why-title">Easy Payments</div>
+      <p class="why-desc">Pay via cash, UPI, or card. Paytm KYC also available at our store for your convenience.</p>
+    </div>
+    <div class="why-card reveal">
+      <span class="why-icon">😊</span>
+      <div class="why-title">Friendly Staff</div>
+      <p class="why-desc">Our polite and knowledgeable team helps you find the perfect phone without any pressure or confusion.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="section-label">Find Us</div>
+  <h2 class="section-title reveal">Visit Our Store</h2>
+  <p class="section-sub reveal">Come see us in the Old Anaj Mandi, Tauru. We're open every day of the week!</p>
+
+  <div class="rating-banner reveal">
+    <div>
+      <div class="rating-stars">⭐⭐⭐⭐</div>
+    </div>
+    <div>
+      <div class="rating-num">4.1</div>
+      <div class="rating-count">208+ Google Reviews</div>
+    </div>
+    <div>
+      <div class="rating-text">Tauru's Top-Rated Mobile Store</div>
+      <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">"Big mobile shop on tauru — They provide all new mobile phones"</div>
+    </div>
+  </div>
+
+  <div class="location-wrapper">
+    <div class="location-info reveal">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Address</div>
+          <div class="contact-value">Old Anaj Mandi, near Jitu Lalaji ki Kothi,<br>Tauru, Haryana – 122105</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-value"><a href="tel:+919671115715">+91 96711 15715</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-label">Store Hours</div>
+          <div class="contact-value">
+            <div class="hours-grid">
+              <span class="hours-day">Mon – Sun</span>
+              <span class="hours-time">9:00 AM – 9:00 PM</span>
+            </div>
+            <div style="margin-top:6px;font-size:0.78rem;color:#5a5;"> Open all 7 days</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">⭐</div>
+        <div>
+          <div class="contact-label">Google Rating</div>
+          <div class="contact-value">4.1 / 5 &nbsp;·&nbsp; 208+ Reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-embed reveal">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3511.245!2d76.94786839999999!3d28.2097959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d3093764fc7f5%3A0x2b3c2740084301e0!2sBHARAT%20SALES%20AGENCY!5e0!3m2!1sen!2sin!4v1699999999999"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <a
+        href="https://www.google.com/maps/dir/?api=1&destination=28.2097959,76.94786839999999"
+        target="_blank"
+        class="map-directions-btn">
+        🗺️ Get Directions on Google Maps
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div class="nav-logo-icon">B</div>
+        <div class="nav-title">Bharat <span>Sales</span> Agency</div>
+      </div>
+      <p class="footer-desc">Tauru's most trusted mobile phone store. All brands, best prices, expert service — since we opened our doors.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#phones">All Phones</a></li>
+        <li><a href="#why">Why Choose Us</a></li>
+        <li><a href="#location">Visit Us</a></li>
+        <li><a href="tel:+919671115715">Call Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Brands We Sell</h4>
+      <ul>
+        <li><a href="#phones">Apple · Samsung</a></li>
+        <li><a href="#phones">OnePlus · Xiaomi</a></li>
+        <li><a href="#phones">Realme · Vivo · OPPO</a></li>
+        <li><a href="#phones">Motorola · Nokia · iQOO</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919671115715">+91 96711 15715</a></li>
+        <li><a href="#">Old Anaj Mandi, Tauru</a></li>
+        <li><a href="#">Haryana – 122105</a></li>
+        <li style="color:var(--muted);font-size:0.83rem;">Open 9 AM – 9 PM, Daily</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 Bharat Sales Agency, Tauru, Haryana. All rights reserved.</div>
+    <div>Made with <span>♥</span> for Tauru</div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 40);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Stagger phone cards in grid
+  document.querySelectorAll('.phone-item').forEach((el, i) => {
+    el.style.transitionDelay = (i % 5) * 50 + 'ms';
+  });
+</script>
+</body>
+</html>
