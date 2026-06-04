@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Collection – Bharat Sales Agency | Tauru</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@300;400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* === LOGO PALETTE === */
+    --orange: #F47B20;       
+    --orange-dark: #C9610F;
+    --orange-glow: rgba(244,123,32,0.22);
+    --green: #7DC242;        
+    --green-dark: #5E9B2F;
+    --green-glow: rgba(125,194,66,0.18);
+    --saffron: #FF9933;      
+    --india-white: #FFFFFF;
+    --india-green: #138808;
+
+    /* === BACKGROUNDS === */
+    --bg: #1A1A1E;           
+    --bg-deep: #141416;
+    --surface: #202026;
+    --card: #26262E;
+    --card-hover: #2E2E38;
+
+    /* === BORDERS === */
+    --border: rgba(244,123,32,0.20);
+    --border-green: rgba(125,194,66,0.18);
+
+    /* === TEXT === */
+    --text: #F0EDE6;
+    --muted: #8A8880;
+    --white: #FFFFFF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Subtle background texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 68px;
+    background: rgba(20,20,22,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand {
+    display: flex; align-items: center;
+    text-decoration: none;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+  }
+  .nav-brand .o { color: var(--orange); }
+  .nav-brand .g { color: var(--green); }
+  .nav-links {
+    display: flex; gap: 28px; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 0.92rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta {
+    background: var(--orange) !important;
+    color: #fff !important;
+    padding: 7px 20px;
+    border-radius: 6px;
+  }
+  .nav-cta:hover { background: var(--orange-dark) !important; }
+
+  /* ── HEADER & UTILITIES ── */
+  header {
+    position: relative;
+    padding: 60px 5% 40px;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 100%);
+    text-align: center;
+    border-bottom: 1px solid rgba(244,123,32,0.1);
+  }
+  .header-tricolour {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
+  }
+  .page-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--white);
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+  .page-title .o { color: var(--orange); }
+  .page-subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 600px;
+    margin: 0 auto 30px;
+  }
+
+  /* ── SEARCH & FILTER CONTROLS ── */
+  .controls-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    z-index: 10;
+  }
+  .search-container {
+    position: relative;
+    width: 100%;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px 16px 50px;
+    border-radius: 12px;
+    color: var(--white);
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .search-input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 15px rgba(244,123,32,0.15);
+  }
+  .search-icon {
+    position: absolute;
+    left: 18px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--muted);
+  }
+  .filter-tags {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 0 10px;
+    scrollbar-width: none; /* Firefox */
+  }
+  .filter-tags::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+  
+  .tag {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    background: var(--card);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 30px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tag:hover {
+    color: var(--white);
+    background: var(--card-hover);
+  }
+  .tag.active {
+    background: rgba(125,194,66,0.12);
+    color: var(--green);
+    border-color: rgba(125,194,66,0.4);
+  }
+
+  /* ── PRODUCTS SECTION ── */
+  .products-section {
+    padding: 50px 5% 80px;
+    min-height: 400px;
+  }
+  .results-count {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+
+  /* Phone Card Styling */
+  .phone-item {
+    background: var(--card);
+    border: 1px solid rgba(244,123,32,0.14);
+    border-radius: 16px;
+    padding: 24px 18px 20px;
+    text-align: center;
+    transition: border-color .25s, transform .25s, box-shadow .25s, background .25s;
+    position: relative; overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .phone-item::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(244,123,32,0.06), transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+  .phone-item:hover {
+    border-color: rgba(244,123,32,0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(244,123,32,0.12);
+    background: var(--card-hover);
+  }
+  .phone-item:hover::after { opacity: 1; }
+  .phone-item-emoji { font-size: 2.8rem; margin-bottom: 12px; }
+  .phone-item-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.7rem;
+    color: var(--orange);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .phone-item-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 1.05rem;
+    color: var(--white); line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .phone-item-spec {
+    font-size: 0.75rem; color: var(--muted);
+    margin-bottom: 16px; line-height: 1.5;
+    flex-grow: 1;
+  }
+  .phone-item-price {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1.2rem;
+    color: var(--green);
+    margin-bottom: 14px;
+  }
+  .btn-buy {
+    display: block;
+    width: 100%;
+    background: rgba(244,123,32,0.1);
+    border: 1px solid rgba(244,123,32,0.3);
+    color: var(--white);
+    padding: 8px;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.85rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .phone-item:hover .btn-buy {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+
+  /* Badges */
+  .badge-new, .badge-hot {
+    position: absolute; top: 12px; right: 12px;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px;
+    z-index: 2;
+  }
+  .badge-new { background: var(--orange); }
+  .badge-hot { background: var(--green); }
+
+  /* No Results Message */
+  .no-results {
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+  .no-results span {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg-deep);
+    border-top: 1px solid var(--border);
+    padding: 48px 5% 24px;
+    margin-top: auto;
+  }
+  footer::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 32px; flex-wrap: wrap;
+    padding-top: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-desc { font-size: 0.82rem; color: var(--muted); max-width: 270px; line-height: 1.65; }
+  .footer-col h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.78rem;
+    color: var(--orange);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    font-size: 0.86rem; color: var(--muted);
+    text-decoration: none; transition: color .2s;
+  }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid rgba(244,123,32,0.12);
+    padding-top: 20px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-size: 0.76rem; color: var(--muted);
+  }
+  .footer-bottom .o { color: var(--orange); }
+  .footer-bottom .g { color: var(--green); }
+
+  @media (max-width: 900px) { .nav-links { display: none; } }
+  @media (max-width: 600px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <span class="o">Bharat</span> <span class="g">Sales</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#why">Why Us</a></li>
+    <li><a href="index.html#location">Visit Store</a></li>
+    <li><a href="tel:+919671115715" class="nav-cta">📞 Call Now</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="header-tricolour"></div>
+  <h1 class="page-title">Explore Our <span class="o">Stock</span></h1>
+  <p class="page-subtitle">Search, look up, and discover your next gadget from our deep inventory right here in Tauru.</p>
+  
+  <div class="controls-wrapper">
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search brands, specs, or appliances...">
+    </div>
+    <div class="filter-tags" id="filterTags">
+      <button class="tag active" data-filter="all">All Devices</button>
+      <button class="tag" data-filter="apple">Apple</button>
+      <button class="tag" data-filter="samsung">Samsung</button>
+      <button class="tag" data-filter="oneplus">OnePlus</button>
+      <button class="tag" data-filter="redmi">Redmi/Xiaomi</button>
+      <button class="tag" data-filter="realme">Realme</button>
+      <button class="tag" data-filter="vivo">Vivo</button>
+      <button class="tag" data-filter="oppo">OPPO</button>
+      <button class="tag" data-filter="motorola">Motorola</button>
+    </div>
+  </div>
+</header>
+
+<section class="products-section">
+  <div class="results-count" id="resultsCount">Showing all items</div>
+  <div class="products-grid" id="productsGrid">
+    </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+       <h3 class="page-title" style="font-size:2rem; text-align:left;"><span class="o">Bharat</span> <span class="g">Sales</span></h3>
+       <p class="footer-desc">Tauru's most trusted mobile phone store. All brands, best prices, expert service — open 9 AM to 9 PM, every day.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#why">Why Choose Us</a></li>
+        <li><a href="index.html#location">Visit Us</a></li>
+        <li><a href="tel:+919671115715">Call Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Brands We Sell</h4>
+      <ul>
+        <li><a href="#">Apple · Samsung</a></li>
+        <li><a href="#">OnePlus · Xiaomi · Redmi</a></li>
+        <li><a href="#">Realme · Vivo · OPPO</a></li>
+        <li><a href="#">Motorola · Nokia · iQOO · Nothing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919671115715">+91 96711 15715</a></li>
+        <li><a href="#">Old Anaj Mandi, Tauru</a></li>
+        <li><a href="#">Haryana – 122105</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 <span class="o">Bharat</span> <span class="g">Sales Agency</span>, Tauru, Haryana. All rights reserved.</div>
+    <div>Made with <span class="o">♥</span> for Tauru</div>
+  </div>
+</footer>
+
+<script>
+  // All 51 compiled products perfectly cross-matched from your layout
+  const products = [
+    { brand: "Apple", name: "iPhone 15", spec: "6.1\" OLED · 48MP · A16 Bionic", price: "₹79,900", badge: "New" },
+    { brand: "Apple", name: "iPhone 15 Pro", spec: "6.1\" ProMotion · 48MP · A17 Pro", price: "₹1,34,900", badge: "New" },
+    { brand: "Apple", name: "iPhone 14", spec: "6.1\" OLED · 12MP · A15 Bionic", price: "₹64,900", badge: "" },
+    { brand: "Samsung", name: "Galaxy S24", spec: "6.2\" AMOLED · 50MP · Snapdragon 8 Gen 3", price: "₹74,999", badge: "Hot" },
+    { brand: "Samsung", name: "Galaxy S24 Ultra", spec: "6.8\" QHD+ · 200MP · S Pen", price: "₹1,29,999", badge: "" },
+    { brand: "Samsung", name: "Galaxy A55", spec: "6.6\" Super AMOLED · 50MP · 5G", price: "₹34,999", badge: "Hot" },
+    { brand: "Samsung", name: "Galaxy M34", spec: "6.5\" AMOLED · 50MP · 6000mAh", price: "₹18,999", badge: "" },
+    { brand: "Samsung", name: "Galaxy A35", spec: "6.6\" Super AMOLED · 50MP · Exynos 1380", price: "₹24,999", badge: "" },
+    { brand: "Samsung", name: "Galaxy M55", spec: "6.7\" Super AMOLED · 50MP · Snapdragon 7 Gen 1", price: "₹24,999", badge: "" },
+    { brand: "Samsung", name: "Galaxy F55 5G", spec: "6.7\" AMOLED · 50MP · Snapdragon 7 Gen 1", price: "₹26,999", badge: "" },
+    { brand: "Samsung", name: "Galaxy Z Flip 5", spec: "6.7\" Foldable AMOLED · Snapdragon 8 Gen 2", price: "₹99,999", badge: "" },
+    { brand: "Samsung", name: "Galaxy Z Fold 5", spec: "7.6\" Foldable · Snapdragon 8 Gen 2 · S Pen", price: "₹1,54,999", badge: "" },
+    { brand: "OnePlus", name: "OnePlus 12", spec: "6.82\" LTPO AMOLED · Snapdragon 8 Gen 3", price: "₹64,999", badge: "New" },
+    { brand: "OnePlus", name: "OnePlus 12R", spec: "6.78\" LTPO AMOLED · 50MP · Snapdragon 8 Gen 2", price: "₹39,999", badge: "Hot" },
+    { brand: "OnePlus", name: "Nord CE 4", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹24,999", badge: "" },
+    { brand: "OnePlus", name: "Nord 4", spec: "6.74\" AMOLED · 50MP · Snapdragon 7+ Gen 3", price: "₹29,999", badge: "" },
+    { brand: "OnePlus", name: "Nord CE 3 Lite", spec: "6.72\" IPS · 108MP · Snapdragon 695", price: "₹17,999", badge: "" },
+    { brand: "Xiaomi", name: "Xiaomi 14 Ultra", spec: "6.73\" LTPO AMOLED · Leica Quad Camera", price: "₹99,999", badge: "Hot" },
+    { brand: "Xiaomi", name: "Xiaomi 14", spec: "6.36\" AMOLED · 50MP · Snapdragon 8 Gen 3", price: "₹69,999", badge: "" },
+    { brand: "Xiaomi", name: "Poco F6 Pro", spec: "6.67\" LTPO AMOLED · 64MP · Snapdragon 8 Gen 2", price: "₹45,999", badge: "" },
+    { brand: "Redmi", name: "Note 13 Pro+", spec: "6.67\" AMOLED · 200MP · 120W Charging", price: "₹29,999", badge: "" },
+    { brand: "Redmi", name: "Note 13 5G", spec: "6.67\" AMOLED · 108MP · 5G", price: "₹17,999", badge: "Hot" },
+    { brand: "Redmi", name: "Note 13", spec: "6.67\" AMOLED · 108MP · Helio G99 Ultra", price: "₹14,999", badge: "" },
+    { brand: "Redmi", name: "Redmi 13C", spec: "6.74\" HD+ · 50MP · Helio G85", price: "₹8,999", badge: "" },
+    { brand: "Redmi", name: "Redmi 12 5G", spec: "6.79\" IPS · 50MP · Snapdragon 4 Gen 2", price: "₹12,999", badge: "" },
+    { brand: "Redmi", name: "POCO X6 Pro", spec: "6.67\" AMOLED · 64MP · Dimensity 8300-Ultra", price: "₹26,999", badge: "Hot" },
+    { brand: "Redmi", name: "POCO M6 Pro", spec: "6.67\" AMOLED · 64MP · Helio G99 Ultra", price: "₹13,999", badge: "Hot" },
+    { brand: "Realme", name: "GT 6", spec: "6.78\" LTPO AMOLED · Snapdragon 8s Gen 3", price: "₹34,999", badge: "New" },
+    { brand: "Realme", name: "12 Pro+", spec: "6.7\" AMOLED · 50MP Periscope Zoom · 5G", price: "₹27,999", badge: "Hot" },
+    { brand: "Realme", name: "Narzo 70 Pro", spec: "6.67\" AMOLED · 50MP · Dimensity 7050", price: "₹19,999", badge: "" },
+    { brand: "Realme", name: "Narzo N65", spec: "6.67\" IPS · 50MP · Helio G85 · 5000mAh", price: "₹9,499", badge: "Hot" },
+    { brand: "Realme", name: "Realme C65", spec: "6.67\" LCD · 50MP · Helio G85", price: "₹9,999", badge: "" },
+    { brand: "Vivo", name: "V30 Pro", spec: "6.78\" AMOLED · 50MP Zeiss · 5G", price: "₹43,999", badge: "New" },
+    { brand: "Vivo", name: "V29 Pro", spec: "6.78\" AMOLED · 50MP · Dimensity 8200", price: "₹35,999", badge: "Hot" },
+    { brand: "Vivo", name: "Y200 Pro", spec: "6.78\" AMOLED · 64MP · Snapdragon 695", price: "₹22,999", badge: "" },
+    { brand: "Vivo", name: "T3x 5G", spec: "6.72\" IPS · 50MP · Snapdragon 6 Gen 1", price: "₹13,999", badge: "" },
+    { brand: "Vivo", name: "X100 Pro", spec: "6.78\" LTPO AMOLED · Zeiss Telephoto · Dimensity 9300", price: "₹89,999", badge: "" },
+    { brand: "OPPO", name: "Reno 12 Pro", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹35,999", badge: "Hot" },
+    { brand: "OPPO", name: "A79 5G", spec: "6.72\" IPS · 50MP · Dimensity 6020", price: "₹16,999", badge: "" },
+    { brand: "OPPO", name: "A3 Pro 5G", spec: "6.67\" AMOLED · 50MP · Dimensity 6300", price: "₹18,999", badge: "" },
+    { brand: "OPPO", name: "Find X7 Pro", spec: "6.82\" LTPO AMOLED · Hasselblad Tuning", price: "₹84,999", badge: "" },
+    { brand: "iQOO", name: "iQOO 12", spec: "6.78\" LTPO AMOLED · Snapdragon 8 Gen 3 · 144Hz", price: "₹52,999", badge: "New" },
+    { brand: "iQOO", name: "Neo 9 Pro", spec: "6.78\" LTPO AMOLED · Snapdragon 8 Gen 2 · 144Hz", price: "₹34,999", badge: "New" },
+    { brand: "iQOO", name: "Z9 5G", spec: "6.67\" AMOLED · 50MP · Snapdragon 7 Gen 3", price: "₹22,999", badge: "" },
+    { brand: "Motorola", name: "Edge 50 Pro", spec: "6.7\" pOLED · 50MP · Snapdragon 7s Gen 2", price: "₹31,999", badge: "" },
+    { brand: "Motorola", name: "Moto G85", spec: "6.67\" pOLED · 50MP · Snapdragon 6s Gen 3", price: "₹17,999", badge: "Hot" },
+    { brand: "Motorola", name: "Moto G64", spec: "6.5\" IPS · 50MP · Dimensity 7025 · 5G", price: "₹13,999", badge: "" },
+    { brand: "Motorola", name: "Razr 50 Ultra", spec: "6.9\" pOLED Foldable · Snapdragon 8s Gen 3", price: "₹99,999", badge: "" },
+    { brand: "Nothing", name: "Phone (2a)", spec: "6.7\" AMOLED · 50MP · Dimensity 7200 Pro", price: "₹23,999", badge: "New" },
+    { brand: "Nothing", name: "Nothing Phone (2)", spec: "6.7\" LTPO AMOLED · 50MP · Snapdragon 8+ Gen 1", price: "₹44,999", badge: "" },
+    { brand: "Nokia", name: "Nokia G42 5G", spec: "6.56\" IPS · 50MP · Snapdragon 480+ · Repairable", price: "₹16,999", badge: "" }
+  ];
+
+  const grid = document.getElementById('productsGrid');
+  const searchInput = document.getElementById('searchInput');
+  const tags = document.querySelectorAll('.tag');
+  const countDisplay = document.getElementById('resultsCount');
+
+  let activeFilter = 'all';
+  let searchQuery = '';
+
+  function renderProducts() {
+    grid.innerHTML = '';
+    
+    // Filter array logic
+    const filtered = products.filter(item => {
+      const matchSearch = item.name.toLowerCase().includes(searchQuery) || 
+                          item.brand.toLowerCase().includes(searchQuery) || 
+                          item.spec.toLowerCase().includes(searchQuery);
+      
+      let matchCategory = true;
+      if (activeFilter !== 'all') {
+        if (activeFilter === 'redmi') {
+          matchCategory = (item.brand.toLowerCase() === 'redmi' || item.brand.toLowerCase() === 'xiaomi');
+        } else {
+          matchCategory = item.brand.toLowerCase() === activeFilter;
+        }
+      }
+      
+      return matchSearch && matchCategory;
+    });
+
+    // Handle empty data states
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="no-results"><span>📦</span>No devices found matching your parameters. Try searching for other specifications or check back later!</div>`;
+      countDisplay.innerText = "No models found";
+      return;
+    }
+
+    countDisplay.innerText = `Showing ${filtered.length} matching device(s)`;
+
+    // Output template dynamically
+    filtered.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'phone-item';
+      card.style.transitionDelay = (index % 4) * 40 + 'ms';
+      
+      let badgeHTML = '';
+      if(item.badge === 'New') badgeHTML = `<span class="badge-new">New</span>`;
+      if(item.badge === 'Hot') badgeHTML = `<span class="badge-hot">Hot</span>`;
+
+      card.innerHTML = `
+        ${badgeHTML}
+        <div>
+          <div class="phone-item-emoji">📱</div>
+          <div class="phone-item-brand">${item.brand}</div>
+          <div class="phone-item-name">${item.name}</div>
+          <div class="phone-item-spec">${item.spec}</div>
+        </div>
+        <div>
+          <div class="phone-item-price">${item.price}</div>
+          <a href="tel:+919671115715" class="btn-buy">Inquire Price</a>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // Real-time keyword processing
+  searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value.toLowerCase();
+    renderProducts();
+  });
+
+  // Category switching control
+  tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      tags.forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+      activeFilter = tag.getAttribute('data-filter');
+      renderProducts();
+    });
+  });
+
+  // Initial Paint Engine Call
+  renderProducts();
+</script>
+</body>
+</html>
