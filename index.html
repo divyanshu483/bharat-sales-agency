@@ -322,18 +322,19 @@
     max-width: 520px; margin-bottom: 48px;
   }
 
-  /* ── PHONES GRID ── */
+/* ── PHONES GRID ── */
   #phones { background: var(--bg-deep); }
   .phones-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 22px;
+    margin-bottom: 40px;
   }
   .phone-item {
     background: var(--card);
     border: 1px solid rgba(244,123,32,0.14);
     border-radius: 16px;
-    padding: 22px 16px 18px;
+    padding: 28px 20px 24px;
     text-align: center;
     cursor: pointer;
     transition: border-color .25s, transform .25s, box-shadow .25s, background .25s;
@@ -392,6 +393,12 @@
     font-weight: 700; font-size: 0.58rem;
     letter-spacing: 0.1em; text-transform: uppercase;
     padding: 3px 7px; border-radius: 4px;
+  }
+
+  /* Center CTA Button container */
+  .view-all-container {
+    text-align: center;
+    margin-top: 20px;
   }
 
   /* ── WHY US ── */
@@ -672,62 +679,20 @@
 
 <!-- PHONES GRID -->
 <section id="phones">
-  <div class="section-label">Our Collection</div>
-  <h2 class="section-title reveal">50+ Top Phones<br><span class="o">In Stock</span> Now</h2>
-  <p class="section-sub reveal">From budget-friendly to flagship — every major model available. Walk in and pick yours today in Tauru.</p>
+  <div class="section-label">Featured Models</div>
+  <h2 class="section-title reveal">Top Flagships<br><span class="o">In Stock</span> Now</h2>
+  <p class="section-sub reveal">Explore a preview of our premium collection. Tap below to view our full inventory of 50+ smartphones and appliances.</p>
 
+  <!-- Only 3 devices of 3 different brands kept -->
   <div class="phones-grid">
-    <div class="phone-item reveal"><span class="badge-new">New</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Apple</div><div class="phone-item-name">iPhone 15</div><div class="phone-item-spec">6.1" OLED · 48MP · A16 Bionic</div><div class="phone-item-price">₹79,900</div></div>
     <div class="phone-item reveal"><span class="badge-new">New</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Apple</div><div class="phone-item-name">iPhone 15 Pro</div><div class="phone-item-spec">6.1" ProMotion · 48MP · A17 Pro</div><div class="phone-item-price">₹1,34,900</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Apple</div><div class="phone-item-name">iPhone 14</div><div class="phone-item-spec">6.1" OLED · 12MP · A15 Bionic</div><div class="phone-item-price">₹64,900</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy S24</div><div class="phone-item-spec">6.2" AMOLED · 50MP · Snapdragon 8 Gen 3</div><div class="phone-item-price">₹74,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy S24 Ultra</div><div class="phone-item-spec">6.8" QHD+ · 200MP · S Pen</div><div class="phone-item-price">₹1,29,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy A55</div><div class="phone-item-spec">6.6" Super AMOLED · 50MP · 5G</div><div class="phone-item-price">₹34,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy M34</div><div class="phone-item-spec">6.5" AMOLED · 50MP · 6000mAh</div><div class="phone-item-price">₹18,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy A35</div><div class="phone-item-spec">6.6" Super AMOLED · 50MP · Exynos 1380</div><div class="phone-item-price">₹24,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy M55</div><div class="phone-item-spec">6.7" Super AMOLED · 50MP · Snapdragon 7 Gen 1</div><div class="phone-item-price">₹24,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy F55 5G</div><div class="phone-item-spec">6.7" AMOLED · 50MP · Snapdragon 7 Gen 1</div><div class="phone-item-price">₹26,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy Z Flip 5</div><div class="phone-item-spec">6.7" Foldable AMOLED · Snapdragon 8 Gen 2</div><div class="phone-item-price">₹99,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy Z Fold 5</div><div class="phone-item-spec">7.6" Foldable · Snapdragon 8 Gen 2 · S Pen</div><div class="phone-item-price">₹1,54,999</div></div>
+    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Samsung</div><div class="phone-item-name">Galaxy S24 Ultra</div><div class="phone-item-spec">6.8" QHD+ · 200MP · S Pen</div><div class="phone-item-price">₹1,29,999</div></div>
     <div class="phone-item reveal"><span class="badge-new">New</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OnePlus</div><div class="phone-item-name">OnePlus 12</div><div class="phone-item-spec">6.82" LTPO AMOLED · Snapdragon 8 Gen 3</div><div class="phone-item-price">₹64,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OnePlus</div><div class="phone-item-name">OnePlus 12R</div><div class="phone-item-spec">6.78" LTPO AMOLED · 50MP · Snapdragon 8 Gen 2</div><div class="phone-item-price">₹39,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OnePlus</div><div class="phone-item-name">Nord CE 4</div><div class="phone-item-spec">6.7" AMOLED · 50MP · Snapdragon 7s Gen 2</div><div class="phone-item-price">₹24,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OnePlus</div><div class="phone-item-name">Nord 4</div><div class="phone-item-spec">6.74" AMOLED · 50MP · Snapdragon 7+ Gen 3</div><div class="phone-item-price">₹29,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OnePlus</div><div class="phone-item-name">Nord CE 3 Lite</div><div class="phone-item-spec">6.72" IPS · 108MP · Snapdragon 695</div><div class="phone-item-price">₹17,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Xiaomi</div><div class="phone-item-name">Xiaomi 14 Ultra</div><div class="phone-item-spec">6.73" LTPO AMOLED · Leica Quad Camera</div><div class="phone-item-price">₹99,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Xiaomi</div><div class="phone-item-name">Xiaomi 14</div><div class="phone-item-spec">6.36" AMOLED · 50MP · Snapdragon 8 Gen 3</div><div class="phone-item-price">₹69,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Xiaomi</div><div class="phone-item-name">Poco F6 Pro</div><div class="phone-item-spec">6.67" LTPO AMOLED · 64MP · Snapdragon 8 Gen 2</div><div class="phone-item-price">₹45,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Redmi</div><div class="phone-item-name">Note 13 Pro+</div><div class="phone-item-spec">6.67" AMOLED · 200MP · 120W Charging</div><div class="phone-item-price">₹29,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Redmi</div><div class="phone-item-name">Note 13 5G</div><div class="phone-item-spec">6.67" AMOLED · 108MP · 5G</div><div class="phone-item-price">₹17,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Redmi</div><div class="phone-item-name">Note 13</div><div class="phone-item-spec">6.67" AMOLED · 108MP · Helio G99 Ultra</div><div class="phone-item-price">₹14,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Redmi</div><div class="phone-item-name">Redmi 13C</div><div class="phone-item-spec">6.74" HD+ · 50MP · Helio G85</div><div class="phone-item-price">₹8,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Redmi</div><div class="phone-item-name">Redmi 12 5G</div><div class="phone-item-spec">6.79" IPS · 50MP · Snapdragon 4 Gen 2</div><div class="phone-item-price">₹12,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Redmi</div><div class="phone-item-name">POCO X6 Pro</div><div class="phone-item-spec">6.67" AMOLED · 64MP · Dimensity 8300-Ultra</div><div class="phone-item-price">₹26,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Redmi</div><div class="phone-item-name">POCO M6 Pro</div><div class="phone-item-spec">6.67" AMOLED · 64MP · Helio G99 Ultra</div><div class="phone-item-price">₹13,999</div></div>
-    <div class="phone-item reveal"><span class="badge-new">New</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Realme</div><div class="phone-item-name">GT 6</div><div class="phone-item-spec">6.78" LTPO AMOLED · Snapdragon 8s Gen 3</div><div class="phone-item-price">₹34,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Realme</div><div class="phone-item-name">12 Pro+</div><div class="phone-item-spec">6.7" AMOLED · 50MP Periscope Zoom · 5G</div><div class="phone-item-price">₹27,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Realme</div><div class="phone-item-name">Narzo 70 Pro</div><div class="phone-item-spec">6.67" AMOLED · 50MP · Dimensity 7050</div><div class="phone-item-price">₹19,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Realme</div><div class="phone-item-name">Narzo N65</div><div class="phone-item-spec">6.67" IPS · 50MP · Helio G85 · 5000mAh</div><div class="phone-item-price">₹9,499</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Realme</div><div class="phone-item-name">Realme C65</div><div class="phone-item-spec">6.67" LCD · 50MP · Helio G85</div><div class="phone-item-price">₹9,999</div></div>
-    <div class="phone-item reveal"><span class="badge-new">New</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Vivo</div><div class="phone-item-name">V30 Pro</div><div class="phone-item-spec">6.78" AMOLED · 50MP Zeiss · 5G</div><div class="phone-item-price">₹43,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Vivo</div><div class="phone-item-name">V29 Pro</div><div class="phone-item-spec">6.78" AMOLED · 50MP · Dimensity 8200</div><div class="phone-item-price">₹35,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Vivo</div><div class="phone-item-name">Y200 Pro</div><div class="phone-item-spec">6.78" AMOLED · 64MP · Snapdragon 695</div><div class="phone-item-price">₹22,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Vivo</div><div class="phone-item-name">T3x 5G</div><div class="phone-item-spec">6.72" IPS · 50MP · Snapdragon 6 Gen 1</div><div class="phone-item-price">₹13,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Vivo</div><div class="phone-item-name">X100 Pro</div><div class="phone-item-spec">6.78" LTPO AMOLED · Zeiss Telephoto · Dimensity 9300</div><div class="phone-item-price">₹89,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OPPO</div><div class="phone-item-name">Reno 12 Pro</div><div class="phone-item-spec">6.7" AMOLED · 50MP AI Camera · 80W</div><div class="phone-item-price">₹35,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OPPO</div><div class="phone-item-name">A79 5G</div><div class="phone-item-spec">6.72" IPS · 50MP · Dimensity 6020</div><div class="phone-item-price">₹16,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OPPO</div><div class="phone-item-name">A3 Pro 5G</div><div class="phone-item-spec">6.67" AMOLED · 50MP · Dimensity 6300</div><div class="phone-item-price">₹18,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">OPPO</div><div class="phone-item-name">Find X7 Pro</div><div class="phone-item-spec">6.82" LTPO AMOLED · Hasselblad Tuning</div><div class="phone-item-price">₹84,999</div></div>
-    <div class="phone-item reveal"><span class="badge-new">New</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">iQOO</div><div class="phone-item-name">iQOO 12</div><div class="phone-item-spec">6.78" LTPO AMOLED · Snapdragon 8 Gen 3 · 144Hz</div><div class="phone-item-price">₹52,999</div></div>
-    <div class="phone-item reveal"><span class="badge-new">New</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">iQOO</div><div class="phone-item-name">Neo 9 Pro</div><div class="phone-item-spec">6.78" LTPO AMOLED · Snapdragon 8 Gen 2 · 144Hz</div><div class="phone-item-price">₹34,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">iQOO</div><div class="phone-item-name">Z9 5G</div><div class="phone-item-spec">6.67" AMOLED · 50MP · Snapdragon 7 Gen 3</div><div class="phone-item-price">₹22,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Motorola</div><div class="phone-item-name">Edge 50 Pro</div><div class="phone-item-spec">6.7" pOLED · 50MP · Snapdragon 7s Gen 2</div><div class="phone-item-price">₹31,999</div></div>
-    <div class="phone-item reveal"><span class="badge-hot">Hot</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Motorola</div><div class="phone-item-name">Moto G85</div><div class="phone-item-spec">6.67" pOLED · 50MP · Snapdragon 6s Gen 3</div><div class="phone-item-price">₹17,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Motorola</div><div class="phone-item-name">Moto G64</div><div class="phone-item-spec">6.5" IPS · 50MP · Dimensity 7025 · 5G</div><div class="phone-item-price">₹13,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Motorola</div><div class="phone-item-name">Razr 50 Ultra</div><div class="phone-item-spec">6.9" pOLED Foldable · Snapdragon 8s Gen 3</div><div class="phone-item-price">₹99,999</div></div>
-    <div class="phone-item reveal"><span class="badge-new">New</span><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Nothing</div><div class="phone-item-name">Phone (2a)</div><div class="phone-item-spec">6.7" AMOLED · 50MP · Dimensity 7200 Pro</div><div class="phone-item-price">₹23,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Nothing</div><div class="phone-item-name">Nothing Phone (2)</div><div class="phone-item-spec">6.7" LTPO AMOLED · 50MP · Snapdragon 8+ Gen 1</div><div class="phone-item-price">₹44,999</div></div>
-    <div class="phone-item reveal"><div class="phone-item-emoji">📱</div><div class="phone-item-brand">Nokia</div><div class="phone-item-name">Nokia G42 5G</div><div class="phone-item-spec">6.56" IPS · 50MP · Snapdragon 480+ · Repairable</div><div class="phone-item-price">₹16,999</div></div>
+  </div>
+
+  <!-- "See All Products" Action Redirect Button -->
+  <div class="view-all-container reveal">
+    <a href="products.html" class="btn-primary" style="padding: 14px 40px; font-size: 1.05rem;">🔍 View All Products &amp; Appliances</a>
   </div>
 </section>
 
