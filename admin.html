@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel – Bharat Sales Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F47B20;
+    --orange-dark: #C9610F;
+    --orange-glow: rgba(244,123,32,0.18);
+    --green: #7DC242;
+    --green-dark: #5E9B2F;
+    --red: #e05252;
+    --red-dark: #b83c3c;
+    --bg: #1A1A1E;
+    --bg-deep: #141416;
+    --surface: #202026;
+    --card: #26262E;
+    --card-hover: #2E2E38;
+    --border: rgba(244,123,32,0.20);
+    --text: #F0EDE6;
+    --muted: #8A8880;
+    --white: #FFFFFF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Black Ops One", system-ui; overflow-x: hidden; min-height: 100vh;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 68px;
+    background: rgba(20,20,22,0.97); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo-img { height: 44px; width: auto; filter: drop-shadow(0 2px 8px rgba(244,123,32,0.3)); }
+  .admin-badge {
+    background: var(--orange); color: #fff; font-size: 0.62rem;
+    letter-spacing: 0.14em; padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+  }
+  .nav-back {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--muted); font-size: 0.85rem; text-decoration: none;
+    letter-spacing: 0.06em; text-transform: uppercase; transition: color .2s;
+  }
+  .nav-back:hover { color: var(--orange); }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; padding: 48px 5% 36px;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 100%);
+    border-bottom: 1px solid rgba(244,123,32,0.1);
+  }
+  .header-tricolour {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
+  }
+  .header-inner { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .page-title { font-size: clamp(1.8rem, 5vw, 3.2rem); color: var(--white); letter-spacing: 0.02em; }
+  .page-title .o { color: var(--orange); }
+  .page-title .g { color: var(--green); }
+  .stats-bar { display: flex; gap: 20px; flex-wrap: wrap; }
+  .stat-chip {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 8px 18px; text-align: center;
+  }
+  .stat-chip .num { font-size: 1.4rem; color: var(--orange); display: block; }
+  .stat-chip .lbl { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* ── MAIN LAYOUT ── */
+  .main { display: grid; grid-template-columns: 380px 1fr; gap: 28px; padding: 36px 5% 80px; position: relative; z-index: 1; }
+  @media (max-width: 900px) { .main { grid-template-columns: 1fr; } }
+
+  /* ── ADD PANEL ── */
+  .add-panel {
+    background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+    padding: 28px 24px; height: fit-content; position: sticky; top: 88px;
+  }
+  @media (max-width: 900px) { .add-panel { position: static; } }
+  .panel-title {
+    font-size: 1rem; color: var(--orange); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 22px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title::before { content: ''; display: block; width: 4px; height: 18px; background: var(--orange); border-radius: 2px; }
+
+  .form-group { margin-bottom: 14px; }
+  label { display: block; font-size: 0.68rem; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+  .form-input, .form-select {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    padding: 11px 14px; border-radius: 10px; color: var(--white);
+    font-family: "Black Ops One", system-ui; font-size: 0.9rem; outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s; -webkit-appearance: none; appearance: none;
+  }
+  .form-input:focus, .form-select:focus { border-color: var(--orange); box-shadow: 0 0 12px rgba(244,123,32,0.15); }
+  .form-input::placeholder { color: var(--muted); opacity: 0.6; }
+  .form-select option { background: var(--card); }
+
+  .badge-row { display: flex; gap: 8px; }
+  .badge-btn {
+    flex: 1; padding: 9px 6px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--muted); font-family: "Black Ops One", system-ui;
+    font-size: 0.78rem; cursor: pointer; letter-spacing: 0.06em; text-transform: uppercase;
+    transition: all .2s; -webkit-tap-highlight-color: transparent;
+  }
+  .badge-btn.active-none { border-color: var(--muted); color: var(--white); }
+  .badge-btn.active-new { background: rgba(244,123,32,0.15); border-color: var(--orange); color: var(--orange); }
+  .badge-btn.active-hot { background: rgba(125,194,66,0.15); border-color: var(--green); color: var(--green); }
+
+  .btn-add {
+    width: 100%; padding: 13px; border-radius: 10px; border: none;
+    background: var(--orange); color: #fff;
+    font-family: "Black Ops One", system-ui; font-size: 1rem; letter-spacing: 0.06em;
+    text-transform: uppercase; cursor: pointer; margin-top: 6px;
+    transition: background .2s, transform .15s; -webkit-tap-highlight-color: transparent;
+  }
+  .btn-add:hover { background: var(--orange-dark); transform: translateY(-1px); }
+  .btn-add:active { transform: translateY(0); }
+
+  .success-toast {
+    display: none; background: rgba(125,194,66,0.15); border: 1px solid rgba(125,194,66,0.4);
+    color: var(--green); padding: 10px 14px; border-radius: 8px; font-size: 0.82rem;
+    margin-top: 12px; text-align: center; letter-spacing: 0.05em;
+    animation: fadeIn .3s ease;
+  }
+  .success-toast.show { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── EXPORT SECTION ── */
+  .export-panel {
+    background: var(--surface); border: 1px solid rgba(125,194,66,0.2); border-radius: 12px;
+    padding: 16px; margin-top: 18px;
+  }
+  .export-title { font-size: 0.68rem; color: var(--green); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
+  .btn-export {
+    width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(125,194,66,0.35);
+    background: rgba(125,194,66,0.1); color: var(--green);
+    font-family: "Black Ops One", system-ui; font-size: 0.82rem; letter-spacing: 0.06em;
+    text-transform: uppercase; cursor: pointer; margin-bottom: 8px;
+    transition: background .2s; -webkit-tap-highlight-color: transparent;
+  }
+  .btn-export:hover { background: rgba(125,194,66,0.2); }
+  .btn-export:last-child { margin-bottom: 0; }
+  .export-hint { font-size: 0.62rem; color: var(--muted); text-align: center; margin-top: 8px; line-height: 1.5; letter-spacing: 0.03em; }
+
+  /* ── LIST PANEL ── */
+  .list-panel { min-width: 0; }
+  .list-controls {
+    display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
+  }
+  .search-wrap { position: relative; flex: 1; min-width: 180px; }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; }
+  .search-input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    padding: 11px 14px 11px 42px; border-radius: 10px; color: var(--white);
+    font-family: "Black Ops One", system-ui; font-size: 0.88rem; outline: none;
+    transition: border-color 0.25s; -webkit-appearance: none; appearance: none;
+  }
+  .search-input:focus { border-color: var(--orange); }
+  .search-input::placeholder { color: var(--muted); opacity: 0.6; }
+
+  .filter-select {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 11px 14px; border-radius: 10px; color: var(--white);
+    font-family: "Black Ops One", system-ui; font-size: 0.85rem; outline: none;
+    -webkit-appearance: none; appearance: none; cursor: pointer;
+    transition: border-color .25s;
+  }
+  .filter-select:focus { border-color: var(--orange); }
+  .filter-select option { background: var(--card); }
+
+  .count-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.08em; white-space: nowrap; }
+
+  /* ── PHONE TABLE ── */
+  .phone-table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--bg-deep); }
+  th {
+    padding: 12px 16px; text-align: left; font-size: 0.64rem; color: var(--orange);
+    letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr {
+    border-bottom: 1px solid rgba(244,123,32,0.07);
+    transition: background .2s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--card-hover); }
+  td { padding: 12px 16px; font-size: 0.82rem; vertical-align: middle; }
+  .td-brand { color: var(--orange); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .td-name { color: var(--white); }
+  .td-spec { color: var(--muted); font-size: 0.72rem; max-width: 220px; }
+  .td-price { color: var(--green); white-space: nowrap; }
+  .badge-pill {
+    display: inline-block; font-size: 0.56rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 4px;
+  }
+  .badge-pill.new { background: var(--orange); color: #fff; }
+  .badge-pill.hot { background: var(--green); color: #fff; }
+  .badge-pill.none { color: transparent; }
+
+  .btn-delete {
+    background: rgba(224,82,82,0.1); border: 1px solid rgba(224,82,82,0.3);
+    color: var(--red); padding: 6px 14px; border-radius: 7px;
+    font-family: "Black Ops One", system-ui; font-size: 0.72rem; letter-spacing: 0.06em;
+    text-transform: uppercase; cursor: pointer;
+    transition: background .2s, border-color .2s; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-delete:hover { background: rgba(224,82,82,0.25); border-color: var(--red); }
+
+  .empty-state {
+    padding: 64px 20px; text-align: center; color: var(--muted);
+    font-size: 0.9rem; letter-spacing: 0.05em;
+  }
+  .empty-state .icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+  /* ── CONFIRM MODAL ── */
+  .modal-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+    z-index: 500; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--card); border: 1px solid rgba(224,82,82,0.35); border-radius: 18px;
+    padding: 32px 28px; max-width: 380px; width: 100%;
+    animation: modalIn .2s ease;
+  }
+  @keyframes modalIn { from { opacity:0; transform:scale(0.94); } to { opacity:1; transform:scale(1); } }
+  .modal-icon { font-size: 2.4rem; text-align: center; margin-bottom: 12px; }
+  .modal-title { font-size: 1.1rem; color: var(--white); text-align: center; margin-bottom: 8px; }
+  .modal-sub { font-size: 0.78rem; color: var(--muted); text-align: center; margin-bottom: 24px; line-height: 1.6; letter-spacing: 0.04em; }
+  .modal-name { color: var(--orange); }
+  .modal-btns { display: flex; gap: 12px; }
+  .btn-cancel {
+    flex: 1; padding: 11px; border-radius: 9px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--muted);
+    font-family: "Black Ops One", system-ui; font-size: 0.85rem;
+    cursor: pointer; transition: color .2s, border-color .2s; letter-spacing: 0.05em;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-cancel:hover { color: var(--white); border-color: var(--muted); }
+  .btn-confirm-delete {
+    flex: 1; padding: 11px; border-radius: 9px; border: none;
+    background: var(--red); color: #fff;
+    font-family: "Black Ops One", system-ui; font-size: 0.85rem;
+    cursor: pointer; transition: background .2s; letter-spacing: 0.05em;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-confirm-delete:hover { background: var(--red-dark); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header { padding: 36px 4% 24px; }
+    .main { padding: 24px 4% 60px; }
+    .stats-bar { gap: 10px; }
+    .stat-chip .num { font-size: 1.1rem; }
+    td, th { padding: 10px 10px; }
+    .td-spec { max-width: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="products.html">
+    <img class="nav-logo-img" src="https://i.ibb.co/1G7hhV1t/851872.jpg" alt="Bharat Sales Agency">
+    <span class="admin-badge">Admin</span>
+  </a>
+  <a class="nav-back" href="products.html">← Back to Shop</a>
+</nav>
+
+<!-- HEADER -->
+<header>
+  <div class="header-tricolour"></div>
+  <div class="header-inner">
+    <div>
+      <h1 class="page-title"><span class="o">Admin</span> <span class="g">Panel</span></h1>
+      <p style="color:var(--muted);font-size:0.82rem;letter-spacing:0.06em;margin-top:6px;">Manage products for Bharat Sales Agency, Tauru</p>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-chip">
+        <span class="num" id="totalCount">0</span>
+        <span class="lbl">Total</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num" id="brandCount">0</span>
+        <span class="lbl">Brands</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num" id="newCount">0</span>
+        <span class="lbl">New</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num" id="hotCount">0</span>
+        <span class="lbl">Hot</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ADD FORM -->
+  <aside class="add-panel">
+    <div class="panel-title">Add New Phone</div>
+
+    <div class="form-group">
+      <label>Brand</label>
+      <select class="form-select" id="newBrand">
+        <option value="">Select brand…</option>
+        <option value="Apple">Apple</option>
+        <option value="Samsung">Samsung</option>
+        <option value="OnePlus">OnePlus</option>
+        <option value="Redmi">Redmi</option>
+        <option value="Realme">Realme</option>
+        <option value="Vivo">Vivo</option>
+        <option value="OPPO">OPPO</option>
+        <option value="Motorola">Motorola</option>
+        <option value="Nokia">Nokia</option>
+        <option value="iQOO">iQOO</option>
+        <option value="Nothing">Nothing</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Custom Brand (if Other)</label>
+      <input type="text" class="form-input" id="newBrandCustom" placeholder="e.g. Tecno">
+    </div>
+
+    <div class="form-group">
+      <label>Model Name</label>
+      <input type="text" class="form-input" id="newName" placeholder="e.g. Galaxy S25">
+    </div>
+
+    <div class="form-group">
+      <label>Specs</label>
+      <input type="text" class="form-input" id="newSpec" placeholder="e.g. 6.2\" AMOLED · 50MP · 5G">
+    </div>
+
+    <div class="form-group">
+      <label>Price</label>
+      <input type="text" class="form-input" id="newPrice" placeholder="e.g. ₹29,999">
+    </div>
+
+    <div class="form-group">
+      <label>Badge</label>
+      <div class="badge-row">
+        <button class="badge-btn active-none" id="badgeNone" onclick="setBadge('')">None</button>
+        <button class="badge-btn" id="badgeNew" onclick="setBadge('New')">🆕 New</button>
+        <button class="badge-btn" id="badgeHot" onclick="setBadge('Hot')">🔥 Hot</button>
+      </div>
+    </div>
+
+    <button class="btn-add" onclick="addPhone()">+ Add to Inventory</button>
+    <div class="success-toast" id="toast">✅ Phone added successfully!</div>
+
+    <div class="export-panel">
+      <div class="export-title">🔄 Sync to Website</div>
+      <button class="btn-export" onclick="copyProductsJS()">📋 Copy products.js Code</button>
+      <button class="btn-export" onclick="downloadProductsJS()">⬇️ Download products.js</button>
+      <div class="export-hint">After adding/removing phones, copy or download the updated products list and replace the <code style="color:var(--orange)">const products = [...]</code> section in your products.html</div>
+    </div>
+  </aside>
+
+  <!-- PRODUCT LIST -->
+  <section class="list-panel">
+    <div class="list-controls">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search phones…" oninput="renderTable()">
+      </div>
+      <select class="filter-select" id="brandFilter" onchange="renderTable()">
+        <option value="all">All Brands</option>
+      </select>
+      <span class="count-label" id="countLabel">0 phones</span>
+    </div>
+
+    <div class="phone-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Specs</th>
+            <th>Price</th>
+            <th>Badge</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="phoneTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-backdrop" id="deleteModal">
+  <div class="modal">
+    <div class="modal-icon">🗑️</div>
+    <div class="modal-title">Remove Phone?</div>
+    <div class="modal-sub">Are you sure you want to remove <span class="modal-name" id="deleteModalName"></span> from inventory? This cannot be undone.</div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm-delete" onclick="confirmDelete()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DEFAULT PRODUCTS (from products.html) ──
+const DEFAULT_PRODUCTS = [
+  { brand: "Apple", name: "iPhone 15", spec: "6.1\" OLED · 48MP · A16 Bionic", price: "₹59,900", badge: "New" },
+  { brand: "Apple", name: "iPhone 16", spec: "6.1\" ProMotion · 48MP · A17 Pro", price: "₹69,900", badge: "New" },
+  { brand: "Apple", name: "iPhone 17", spec: "6.1\" OLED · 12MP · A15 Bionic", price: "₹82,900", badge: "" },
+  { brand: "Apple", name: "iPhone 17 Pro", spec: "6.1\" OLED · 12MP · A15 Bionic", price: "₹1,35,900", badge: "" },
+  { brand: "Samsung", name: "Galaxy S24", spec: "6.2\" AMOLED · 50MP · Snapdragon 8 Gen 3", price: "₹74,999", badge: "Hot" },
+  { brand: "Samsung", name: "Galaxy S24 Ultra", spec: "6.8\" QHD+ · 200MP · S Pen", price: "₹1,29,999", badge: "" },
+  { brand: "Samsung", name: "Galaxy A55", spec: "6.6\" Super AMOLED · 50MP · 5G", price: "₹34,999", badge: "Hot" },
+  { brand: "Samsung", name: "Galaxy M34", spec: "6.5\" AMOLED · 50MP · 6000mAh", price: "₹18,999", badge: "" },
+  { brand: "Samsung", name: "Galaxy A35", spec: "6.6\" Super AMOLED · 50MP · Exynos 1380", price: "₹24,999", badge: "" },
+  { brand: "Samsung", name: "Galaxy M55", spec: "6.7\" Super AMOLED · 50MP · Snapdragon 7 Gen 1", price: "₹24,999", badge: "" },
+  { brand: "Samsung", name: "Galaxy F55 5G", spec: "6.7\" AMOLED · 50MP · Snapdragon 7 Gen 1", price: "₹26,999", badge: "" },
+  { brand: "Samsung", name: "Galaxy Z Flip 5", spec: "6.7\" Foldable AMOLED · Snapdragon 8 Gen 2", price: "₹99,999", badge: "" },
+  { brand: "Samsung", name: "Galaxy Z Fold 5", spec: "7.6\" Foldable · Snapdragon 8 Gen 2 · S Pen", price: "₹1,54,999", badge: "" },
+  { brand: "OnePlus", name: "OnePlus 10R", spec: "6.82\" LTPO AMOLED · Snapdragon 8 Gen 3", price: "₹29,999", badge: "New" },
+  { brand: "OnePlus", name: "OnePlus 13R", spec: "6.78\" LTPO AMOLED · 50MP · Snapdragon 8 Gen 2", price: "₹49,999", badge: "Hot" },
+  { brand: "OnePlus", name: "Nord CE 4", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹24,999", badge: "" },
+  { brand: "OnePlus", name: "Nord 4", spec: "6.74\" AMOLED · 50MP · Snapdragon 7+ Gen 3", price: "₹33,999", badge: "" },
+  { brand: "OnePlus", name: "Nord 5", spec: "6.72\" IPS · 108MP · Snapdragon 695", price: "₹33,999", badge: "" },
+  { brand: "OnePlus", name: "Nord C6 LITE", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹22,999", badge: "" },
+  { brand: "OnePlus", name: "Nord C6", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹31,999", badge: "" },
+  { brand: "OnePlus", name: "Nord 6", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹41,999", badge: "" },
+  { brand: "Redmi", name: "Redmi Note 15 5G", spec: "6.73\" LTPO AMOLED · Leica Quad Camera", price: "₹26,999", badge: "Hot" },
+  { brand: "Redmi", name: "Redmi 15A 5G", spec: "6.36\" AMOLED · 50MP · Snapdragon 8 Gen 3", price: "₹14,999", badge: "" },
+  { brand: "Redmi", name: "Redmi 15C 5G", spec: "6.67\" LTPO AMOLED · 64MP · Snapdragon 8 Gen 2", price: "₹16,999", badge: "" },
+  { brand: "Redmi", name: "Redmi Note 15 Pro+ 5G", spec: "6.67\" AMOLED · 200MP · 120W Charging", price: "₹41,999", badge: "" },
+  { brand: "Realme", name: "16 PRO+", spec: "6.78\" LTPO AMOLED · Snapdragon 8s Gen 3", price: "₹40,999", badge: "New" },
+  { brand: "Realme", name: "16", spec: "6.7\" AMOLED · 50MP Periscope Zoom · 5G", price: "₹33,999", badge: "Hot" },
+  { brand: "Realme", name: "16T", spec: "6.7\" AMOLED · 50MP Periscope Zoom · 5G", price: "₹31,999", badge: "Hot" },
+  { brand: "Realme", name: "15", spec: "6.67\" AMOLED · 50MP · Dimensity 7050", price: "₹29,999", badge: "" },
+  { brand: "Realme", name: "15T", spec: "6.67\" IPS · 50MP · Helio G85 · 5000mAh", price: "₹27,999", badge: "Hot" },
+  { brand: "Realme", name: "C83", spec: "6.67\" LCD · 50MP · Helio G85", price: "₹20,499", badge: "" },
+  { brand: "Vivo", name: "V70 ELITE", spec: "6.78\" AMOLED · 50MP Zeiss · 5G", price: "₹54,999", badge: "New" },
+  { brand: "Vivo", name: "V70", spec: "6.78\" AMOLED · 50MP · Dimensity 8200", price: "₹49,999", badge: "Hot" },
+  { brand: "Vivo", name: "Y70 FE", spec: "6.78\" AMOLED · 64MP · Snapdragon 695", price: "₹40,999", badge: "" },
+  { brand: "Vivo", name: "Y51 PRO", spec: "6.72\" IPS · 50MP · Snapdragon 6 Gen 1", price: "₹27,999", badge: "" },
+  { brand: "Vivo", name: "X300 FE", spec: "6.78\" LTPO AMOLED · Zeiss Telephoto · Dimensity 9300", price: "₹79,999", badge: "" },
+  { brand: "OPPO", name: "Reno 15 Pro MINI", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹59,999", badge: "Hot" },
+  { brand: "OPPO", name: "Reno 15C", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹41,999", badge: "" },
+  { brand: "OPPO", name: "Reno 15", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹47,999", badge: "" },
+  { brand: "OPPO", name: "F33", spec: "6.72\" IPS · 50MP · Dimensity 6020", price: "₹34,999", badge: "" },
+  { brand: "OPPO", name: "F33 PRO", spec: "6.72\" IPS · 50MP · Dimensity 6020", price: "₹37,999", badge: "" },
+  { brand: "OPPO", name: "A6 Pro 5G", spec: "6.67\" AMOLED · 50MP · Dimensity 6300", price: "₹27,999", badge: "" },
+  { brand: "OPPO", name: "Find X9S", spec: "6.82\" LTPO AMOLED · Hasselblad Tuning", price: "₹79,999", badge: "" },
+];
+
+// ── STATE ──
+let products = [];
+let selectedBadge = '';
+let deleteIndex = -1;
+
+// ── STORAGE ──
+function loadProducts() {
+  try {
+    const saved = localStorage.getItem('bsa_products');
+    products = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+  } catch(e) {
+    products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+  }
+}
+function saveProducts() {
+  localStorage.setItem('bsa_products', JSON.stringify(products));
+}
+
+// ── BADGE SELECTION ──
+function setBadge(val) {
+  selectedBadge = val;
+  document.getElementById('badgeNone').className = 'badge-btn' + (val === '' ? ' active-none' : '');
+  document.getElementById('badgeNew').className = 'badge-btn' + (val === 'New' ? ' active-new' : '');
+  document.getElementById('badgeHot').className = 'badge-btn' + (val === 'Hot' ? ' active-hot' : '');
+}
+
+// ── ADD PHONE ──
+function addPhone() {
+  const brandSelect = document.getElementById('newBrand').value;
+  const brandCustom = document.getElementById('newBrandCustom').value.trim();
+  const brand = brandSelect === 'Other' ? brandCustom : brandSelect;
+  const name = document.getElementById('newName').value.trim();
+  const spec = document.getElementById('newSpec').value.trim();
+  const price = document.getElementById('newPrice').value.trim();
+
+  if (!brand) { highlight('newBrand'); return; }
+  if (!name) { highlight('newName'); return; }
+  if (!spec) { highlight('newSpec'); return; }
+  if (!price) { highlight('newPrice'); return; }
+
+  products.unshift({ brand, name, spec, price, badge: selectedBadge });
+  saveProducts();
+  updateBrandFilter();
+  renderTable();
+  updateStats();
+
+  // Reset form
+  document.getElementById('newBrand').value = '';
+  document.getElementById('newBrandCustom').value = '';
+  document.getElementById('newName').value = '';
+  document.getElementById('newSpec').value = '';
+  document.getElementById('newPrice').value = '';
+  setBadge('');
+
+  // Show toast
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function highlight(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = 'var(--red)';
+  el.focus();
+  setTimeout(() => el.style.borderColor = '', 1500);
+}
+
+// ── DELETE ──
+function openDeleteModal(index) {
+  deleteIndex = index;
+  const filtered = getFiltered();
+  const item = filtered[index];
+  document.getElementById('deleteModalName').textContent = item.brand + ' ' + item.name;
+  document.getElementById('deleteModal').classList.add('open');
+}
+function closeModal() {
+  deleteIndex = -1;
+  document.getElementById('deleteModal').classList.remove('open');
+}
+function confirmDelete() {
+  const filtered = getFiltered();
+  const item = filtered[deleteIndex];
+  const realIndex = products.findIndex(p => p.brand === item.brand && p.name === item.name && p.spec === item.spec);
+  if (realIndex !== -1) {
+    products.splice(realIndex, 1);
+    saveProducts();
+    updateBrandFilter();
+    renderTable();
+    updateStats();
+  }
+  closeModal();
+}
+
+// Clicking backdrop closes modal
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── FILTER & RENDER ──
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const bf = document.getElementById('brandFilter').value;
+  return products.filter(p => {
+    const matchSearch = !q || p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.spec.toLowerCase().includes(q);
+    const matchBrand = bf === 'all' || p.brand === bf;
+    return matchSearch && matchBrand;
+  });
+}
+
+function renderTable() {
+  const filtered = getFiltered();
+  const tbody = document.getElementById('phoneTableBody');
+  document.getElementById('countLabel').textContent = filtered.length + ' phone' + (filtered.length !== 1 ? 's' : '');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><span class="icon">📦</span>No phones found.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map((p, i) => `
+    <tr>
+      <td class="td-brand">${escHtml(p.brand)}</td>
+      <td class="td-name">${escHtml(p.name)}</td>
+      <td class="td-spec">${escHtml(p.spec)}</td>
+      <td class="td-price">${escHtml(p.price)}</td>
+      <td>${p.badge ? `<span class="badge-pill ${p.badge.toLowerCase()}">${p.badge}</span>` : '<span class="badge-pill none">—</span>'}</td>
+      <td><button class="btn-delete" onclick="openDeleteModal(${i})">Remove</button></td>
+    </tr>
+  `).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function updateBrandFilter() {
+  const brands = [...new Set(products.map(p => p.brand))].sort();
+  const sel = document.getElementById('brandFilter');
+  const current = sel.value;
+  sel.innerHTML = '<option value="all">All Brands</option>' +
+    brands.map(b => `<option value="${escHtml(b)}"${b === current ? ' selected' : ''}>${escHtml(b)}</option>`).join('');
+}
+
+function updateStats() {
+  document.getElementById('totalCount').textContent = products.length;
+  document.getElementById('brandCount').textContent = new Set(products.map(p => p.brand)).size;
+  document.getElementById('newCount').textContent = products.filter(p => p.badge === 'New').length;
+  document.getElementById('hotCount').textContent = products.filter(p => p.badge === 'Hot').length;
+}
+
+// ── EXPORT ──
+function buildProductsJS() {
+  const lines = products.map(p =>
+    `  { brand: ${JSON.stringify(p.brand)}, name: ${JSON.stringify(p.name)}, spec: ${JSON.stringify(p.spec)}, price: ${JSON.stringify(p.price)}, badge: ${JSON.stringify(p.badge || '')} }`
+  );
+  return `const products = [\n${lines.join(',\n')}\n];`;
+}
+
+function copyProductsJS() {
+  const code = buildProductsJS();
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = event.target;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy products.js Code', 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = code; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    const btn = event.target;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy products.js Code', 2000);
+  });
+}
+
+function downloadProductsJS() {
+  const code = buildProductsJS();
+  const blob = new Blob([code], { type: 'text/javascript' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'products-data.js';
+  a.click();
+}
+
+// ── INIT ──
+loadProducts();
+updateBrandFilter();
+renderTable();
+updateStats();
+setBadge('');
+</script>
+</body>
+</html>
