@@ -55,7 +55,7 @@
   }
 
   /* ── NAV ── */
-  nav {
+   nav {
     position: sticky; top: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 5%;
@@ -67,12 +67,13 @@
   .nav-brand {
     display: flex; align-items: center;
     text-decoration: none;
-    font-family: "Black Ops One", system-ui;
-    font-size: 1.8rem;
-    letter-spacing: 0.05em;
   }
-  .nav-brand .o { color: var(--orange); }
-  .nav-brand .g { color: var(--green); }
+  .nav-logo-img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(244,123,32,0.3));
+  }
   .nav-links {
     display: flex; gap: 28px; list-style: none;
   }
@@ -92,7 +93,8 @@
     padding: 7px 20px;
     border-radius: 6px;
   }
-  .nav-cta:hover { background: var(--orange-dark) !important; }
+  .nav-cta:hover { background: var(--orange-dark) !important; color: #fff !important; }
+
 
   /* ── HEADER & UTILITIES ── */
   header {
@@ -358,17 +360,16 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="index.html">
-    <span class="o">Bharat</span> <span class="g">Sales</span>
+  <a class="nav-brand" href="#">
+    <img class="nav-logo-img" src="https://i.ibb.co/1G7hhV1t/851872.jpg" alt="Bharat Sales Agency">
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="index.html#why">Why Us</a></li>
-    <li><a href="index.html#location">Visit Store</a></li>
-    <li><a href="tel:+919671115715" class="nav-cta">📞 Call Now</a></li>
+    <li><a href="products.html">All Products</a></li>
+    <li><a href="#location">Visit Store</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
   </ul>
 </nav>
-
 <header>
   <div class="header-tricolour"></div>
   <h1 class="page-title">Explore Our <span class="o">Stock</span></h1>
