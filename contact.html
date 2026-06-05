@@ -5,323 +5,232 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact Us – Bharat Sales Agency | Tauru</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Sekuya&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* === LOGO PALETTE === */
-    --orange: #F47B20;       
+    --orange: #F47B20;
     --orange-dark: #C9610F;
-    --orange-glow: rgba(244,123,32,0.22);
-    --green: #7DC242;        
+    --green: #7DC242;
     --green-dark: #5E9B2F;
-    --green-glow: rgba(125,194,66,0.18);
-    --saffron: #FF9933;      
-    --india-white: #FFFFFF;
-    --india-green: #138808;
-
-    /* === BACKGROUNDS === */
-    --bg: #1A1A1E;           
+    --bg: #1A1A1E;
     --bg-deep: #141416;
     --surface: #202026;
     --card: #26262E;
     --card-hover: #2E2E38;
-
-    /* === BORDERS === */
     --border: rgba(244,123,32,0.20);
-    --border-green: rgba(125,194,66,0.18);
-
-    /* === TEXT === */
     --text: #F0EDE6;
     --muted: #8A8880;
     --white: #FFFFFF;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-
   body {
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg); color: var(--text);
     font-family: "Black Ops One", system-ui;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh;
   }
-
-  /* Subtle background texture */
   body::before {
-    content: '';
-    position: fixed; inset: 0;
+    content: ''; position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
     pointer-events: none; z-index: 0; opacity: 0.5;
   }
 
   /* ── NAV ── */
-   nav {
-    position: sticky; top: 0; z-index: 100;
+  nav {
+    position: sticky; top: 0; z-index: 200;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 5%;
-    height: 68px;
-    background: rgba(20,20,22,0.92);
-    backdrop-filter: blur(20px);
+    padding: 0 5%; height: 68px;
+    background: rgba(20,20,22,0.96); backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
   }
-  .nav-brand {
-    display: flex; align-items: center;
-    text-decoration: none;
-  }
-  .nav-logo-img {
-    height: 48px;
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 8px rgba(244,123,32,0.3));
-  }
-  .nav-links {
-    display: flex; gap: 28px; list-style: none;
-  }
+  .nav-brand { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo-img { height: 48px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(244,123,32,0.3)); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
   .nav-links a {
-    font-family: "Black Ops One", system-ui;
-    font-weight: 600; font-size: 0.92rem;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color .2s;
+    font-weight: 600; font-size: 0.92rem; color: var(--muted);
+    text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color .2s;
   }
   .nav-links a:hover { color: var(--orange); }
-  .nav-cta {
-    background: var(--orange) !important;
-    color: #fff !important;
-    padding: 7px 20px;
-    border-radius: 6px;
+  .nav-cta { background: var(--orange) !important; color: #fff !important; padding: 7px 20px; border-radius: 6px; }
+  .nav-cta:hover { background: var(--orange-dark) !important; }
+
+  /* Hamburger */
+  .hamburger {
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    width: 44px; height: 44px; background: transparent; border: none; cursor: pointer;
+    gap: 5px; padding: 4px; border-radius: 8px; transition: background .2s;
+    -webkit-tap-highlight-color: transparent;
   }
-  .nav-cta:hover { background: var(--orange-dark) !important; color: #fff !important; }
+  .hamburger:hover { background: rgba(244,123,32,0.1); }
+  .hamburger span {
+    display: block; width: 24px; height: 2px; background: var(--text);
+    border-radius: 2px; transition: transform .3s, opacity .3s, width .3s; transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobile Drawer */
+  .mobile-menu {
+    display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0;
+    background: rgba(14,14,16,0.98); backdrop-filter: blur(24px);
+    z-index: 190; flex-direction: column; padding: 32px 5%; gap: 8px;
+    transform: translateY(-10px); opacity: 0;
+    transition: transform .3s ease, opacity .3s ease; pointer-events: none;
+  }
+  .mobile-menu.open { display: flex; transform: translateY(0); opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    font-size: 1.3rem; color: var(--text); text-decoration: none;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 14px 0; border-bottom: 1px solid rgba(244,123,32,0.1);
+    transition: color .2s, padding-left .2s; display: flex; align-items: center; gap: 12px;
+  }
+  .mobile-menu a:hover { color: var(--orange); padding-left: 8px; }
+  .mobile-menu a:last-child {
+    background: var(--orange); color: #fff !important; padding: 14px 24px;
+    border-radius: 10px; border-bottom: none; margin-top: 16px;
+    justify-content: center; text-align: center;
+  }
+  .mobile-menu a:last-child:hover { background: var(--orange-dark); padding-left: 24px; }
+  .mobile-menu-divider {
+    font-size: 0.68rem; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-top: 8px; margin-bottom: 4px; padding-bottom: 8px;
+    border-bottom: 1px solid rgba(244,123,32,0.08);
+  }
 
   /* ── HEADER ── */
   header {
-    position: relative;
-    padding: 50px 5% 30px;
+    position: relative; padding: 50px 5% 30px;
     background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 100%);
-    text-align: center;
-    border-bottom: 1px solid rgba(244,123,32,0.1);
+    text-align: center; border-bottom: 1px solid rgba(244,123,32,0.1);
   }
   .header-tricolour {
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px;
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
     background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
   }
   .page-title {
-    font-family: "Black Ops One", system-ui;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: var(--white);
-    letter-spacing: 0.02em;
-    margin-bottom: 10px;
+    font-size: clamp(2.2rem, 6vw, 4.5rem); color: var(--white);
+    letter-spacing: 0.02em; margin-bottom: 10px;
   }
   .page-title .o { color: var(--orange); }
-  .page-subtitle {
-    color: var(--muted);
-    font-size: 0.95rem;
-    max-width: 600px;
-    margin: 0 auto;
-  }
+  .page-subtitle { color: var(--muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto; }
 
-  /* ── MAIN CONTENT SPLIT ── */
+  /* ── MAIN CONTACT AREA ── */
   .contact-container {
-    max-width: 1200px;
-    width: 90%;
-    margin: 40px auto 80px;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 40px;
-    position: relative;
-    z-index: 10;
+    max-width: 1200px; width: 90%; margin: 40px auto 80px;
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px;
+    position: relative; z-index: 10; flex: 1;
   }
 
-  /* Left Panel: Info */
-  .info-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
+  /* Left Panel */
+  .info-panel { display: flex; flex-direction: column; gap: 24px; }
   .info-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px;
   }
   .info-card h3 {
-    font-family: "Black Ops One", system-ui;
-    font-weight: 700; font-size: 1.1rem;
-    color: var(--orange);
-    letter-spacing: 0.05em; text-transform: uppercase;
-    margin-bottom: 16px;
+    font-weight: 700; font-size: 1.1rem; color: var(--orange);
+    letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px;
     display: flex; align-items: center; gap: 10px;
   }
-  .info-details p {
-    font-size: 0.95rem; color: var(--text); line-height: 1.6; margin-bottom: 8px;
-  }
+  .info-details p { font-size: 0.95rem; color: var(--text); line-height: 1.6; margin-bottom: 8px; }
   .info-details p:last-child { margin-bottom: 0; }
-  .accent-link {
-    color: var(--green); text-decoration: none; font-weight: 600;
-  }
+  .accent-link { color: var(--green); text-decoration: none; font-weight: 600; }
   .accent-link:hover { text-decoration: underline; }
 
-  /* Quick Actions Layout */
-  .quick-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
+  .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .action-btn {
-    background: var(--card);
-    border: 1px solid rgba(244,123,32,0.15);
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-    text-decoration: none;
-    color: var(--white);
-    font-family: "Black Ops One", system-ui;
-    font-weight: 700; font-size: 0.95rem;
-    letter-spacing: 0.05em; text-transform: uppercase;
+    background: var(--card); border: 1px solid rgba(244,123,32,0.15);
+    border-radius: 12px; padding: 16px; text-align: center;
+    text-decoration: none; color: var(--white); font-weight: 700;
+    font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase;
     transition: all 0.2s;
   }
-  .action-btn.call-primary {
-    border-color: var(--orange);
-    background: rgba(244,123,32,0.06);
-  }
-  .action-btn.call-primary:hover {
-    background: var(--orange);
-    box-shadow: 0 4px 20px rgba(244,123,32,0.25);
-  }
-  .action-btn.map-secondary {
-    border-color: var(--green);
-    background: rgba(125,194,66,0.06);
-  }
-  .action-btn.map-secondary:hover {
-    background: var(--green);
-    box-shadow: 0 4px 20px rgba(125,194,66,0.25);
-  }
-  .action-btn:hover {
-    transform: translateY(-2px);
-    color: #fff;
-  }
+  .action-btn.call-primary { border-color: var(--orange); background: rgba(244,123,32,0.06); }
+  .action-btn.call-primary:hover { background: var(--orange); box-shadow: 0 4px 20px rgba(244,123,32,0.25); }
+  .action-btn.map-secondary { border-color: var(--green); background: rgba(125,194,66,0.06); }
+  .action-btn.map-secondary:hover { background: var(--green); box-shadow: 0 4px 20px rgba(125,194,66,0.25); }
+  .action-btn:hover { transform: translateY(-2px); color: #fff; }
 
-  /* Right Panel: Formspree Engine Form */
+  /* Right Panel: Form */
   .form-panel {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-    position: relative;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 36px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3); position: relative;
   }
   .form-panel::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
     background: linear-gradient(90deg, var(--orange), var(--green));
     border-radius: 20px 20px 0 0;
   }
-  .form-group {
-    margin-bottom: 20px;
-  }
+  .form-group { margin-bottom: 20px; }
   .form-group label {
-    display: block;
-    font-family: "Black Ops One", system-ui;
-    font-weight: 700; font-size: 0.85rem;
-    color: var(--muted);
-    letter-spacing: 0.08em; text-transform: uppercase;
-    margin-bottom: 8px;
+    display: block; font-weight: 700; font-size: 0.85rem; color: var(--muted);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;
   }
   .form-control {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid rgba(244,123,32,0.15);
-    border-radius: 8px;
-    padding: 12px 16px;
-    color: var(--white);
-    font-family: "Black Ops One", system-ui;
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%; background: var(--surface); border: 1px solid rgba(244,123,32,0.15);
+    border-radius: 8px; padding: 12px 16px; color: var(--white);
+    font-family: "Black Ops One", system-ui; font-size: 0.95rem;
+    outline: none; transition: border-color 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none; appearance: none;
   }
-  .form-control:focus {
-    border-color: var(--orange);
-    box-shadow: 0 0 12px rgba(244,123,32,0.12);
-  }
-  textarea.form-control {
-    resize: vertical;
-    min-height: 120px;
-  }
+  .form-control:focus { border-color: var(--orange); box-shadow: 0 0 12px rgba(244,123,32,0.12); }
+  .form-control::placeholder { color: var(--muted); opacity: 0.7; }
+  textarea.form-control { resize: vertical; min-height: 120px; }
   .btn-submit {
-    width: 100%;
-    background: var(--orange);
-    color: var(--white);
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-family: "Black Ops One", system-ui;
-    font-weight: 700; font-size: 1rem;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    cursor: pointer;
+    width: 100%; background: var(--orange); color: var(--white); border: none;
+    padding: 14px; border-radius: 8px; font-weight: 700; font-size: 1rem;
+    letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
     transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     box-shadow: 0 4px 15px rgba(244,123,32,0.2);
+    -webkit-tap-highlight-color: transparent;
   }
-  .btn-submit:hover {
-    background: var(--orange-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 22px rgba(244,123,32,0.35);
-  }
-  .btn-submit:active {
-    transform: translateY(1px);
-  }
+  .btn-submit:hover { background: var(--orange-dark); transform: translateY(-1px); box-shadow: 0 6px 22px rgba(244,123,32,0.35); }
+  .btn-submit:active { transform: translateY(1px); }
 
   /* ── FOOTER ── */
-  footer {
-    background: var(--bg-deep);
-    border-top: 1px solid var(--border);
-    padding: 48px 5% 24px;
-    margin-top: auto;
-  }
+  footer { background: var(--bg-deep); border-top: 1px solid var(--border); padding: 48px 5% 24px; margin-top: auto; }
   footer::before {
-    content: '';
-    display: block;
-    height: 3px;
+    content: ''; display: block; height: 3px;
     background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
   }
   .footer-top {
     display: flex; justify-content: space-between; align-items: flex-start;
-    gap: 32px; flex-wrap: wrap;
-    padding-top: 40px;
-    margin-bottom: 40px;
+    gap: 32px; flex-wrap: wrap; padding-top: 40px; margin-bottom: 40px;
   }
   .footer-desc { font-size: 0.82rem; color: var(--muted); max-width: 270px; line-height: 1.65; }
-  .footer-col h4 {
-    font-family: "Black Ops One", system-ui;
-    font-weight: 700; font-size: 0.78rem;
-    color: var(--orange);
-    letter-spacing: 0.18em; text-transform: uppercase;
-    margin-bottom: 16px;
-  }
+  .footer-col h4 { font-weight: 700; font-size: 0.78rem; color: var(--orange); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; }
   .footer-col ul { list-style: none; }
   .footer-col li { margin-bottom: 10px; }
-  .footer-col a {
-    font-size: 0.86rem; color: var(--muted);
-    text-decoration: none; transition: color .2s;
-  }
+  .footer-col a { font-size: 0.86rem; color: var(--muted); text-decoration: none; transition: color .2s; }
   .footer-col a:hover { color: var(--white); }
   .footer-bottom {
-    border-top: 1px solid rgba(244,123,32,0.12);
-    padding-top: 20px;
+    border-top: 1px solid rgba(244,123,32,0.12); padding-top: 20px;
     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
     font-size: 0.76rem; color: var(--muted);
   }
   .footer-bottom .o { color: var(--orange); }
   .footer-bottom .g { color: var(--green); }
 
+  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .nav-links { display: none; }
+    .hamburger { display: flex; }
     .contact-container { grid-template-columns: 1fr; gap: 30px; }
+  }
+  @media (max-width: 600px) {
+    .contact-container { width: 94%; margin: 28px auto 60px; }
+    .form-panel { padding: 24px 18px; }
+    .page-title { font-size: clamp(1.9rem, 9vw, 3rem); }
+    header { padding: 40px 5% 24px; }
+    .quick-actions { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .action-btn { padding: 12px 8px; font-size: 0.82rem; }
+    .info-card { padding: 18px; }
+    .footer-top { flex-direction: column; gap: 28px; }
+  }
+  @media (max-width: 400px) {
+    nav { padding: 0 4%; }
+    .contact-container { width: 96%; }
   }
 </style>
 </head>
@@ -329,16 +238,28 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-brand" href="#">
+  <a class="nav-brand" href="index.html">
     <img class="nav-logo-img" src="https://i.ibb.co/1G7hhV1t/851872.jpg" alt="Bharat Sales Agency">
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="products.html">All Products</a></li>
-    <li><a href="#location">Visit Store</a></li>
+    <li><a href="index.html#location">Visit Store</a></li>
     <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU DRAWER -->
+<div class="mobile-menu" id="mobileMenu" role="navigation">
+  <div class="mobile-menu-divider">Navigation</div>
+  <a href="index.html" onclick="closeMenu()">🏠 Home</a>
+  <a href="products.html" onclick="closeMenu()">📱 All Products</a>
+  <a href="index.html#location" onclick="closeMenu()">📍 Visit Store</a>
+  <a href="contact.html" onclick="closeMenu()">✉️ Contact Us</a>
+</div>
 
 <!-- HEADER -->
 <header>
@@ -349,15 +270,13 @@
 
 <!-- MAIN CONTACT AREA -->
 <main class="contact-container">
-  
-  <!-- LEFT SIDE: INFO PANELS & QUICK ACTIONS -->
+
+  <!-- LEFT: INFO PANELS -->
   <div class="info-panel">
-    
     <div class="quick-actions">
       <a href="tel:+919671115715" class="action-btn call-primary">📞 Call Store</a>
       <a href="https://www.google.com/maps/dir/?api=1&destination=28.2097959,76.94786839999999" target="_blank" class="action-btn map-secondary">🗺️ Open Map</a>
     </div>
-
     <div class="info-card">
       <h3>📍 Store Location</h3>
       <div class="info-details">
@@ -366,7 +285,6 @@
         <p>Tauru, Haryana – 122105</p>
       </div>
     </div>
-
     <div class="info-card">
       <h3>🕐 Operation Hours</h3>
       <div class="info-details">
@@ -374,7 +292,6 @@
         <p style="color: var(--green); font-weight: 600; margin-top: 6px;">✔ Open all 7 days of the week</p>
       </div>
     </div>
-
     <div class="info-card">
       <h3>📞 Immediate Assistance</h3>
       <div class="info-details">
@@ -382,42 +299,32 @@
         <p style="font-size: 0.85rem; color: var(--muted);">For instant quotes on specific brand prices or quick trade-in updates, phone calls are highly recommended.</p>
       </div>
     </div>
-
   </div>
 
-  <!-- RIGHT SIDE: FORMSPREE ENGINE FORM -->
+  <!-- RIGHT: FORM -->
   <div class="form-panel">
-    <!-- Replace your Formspree Endpoint ID right here -->
     <form action="https://formspree.io/f/mpqezgya" method="POST">
-      
       <div class="form-group">
         <label for="name">Your Name</label>
         <input type="text" name="name" id="name" class="form-control" placeholder="Enter full name" required>
       </div>
-
       <div class="form-group">
         <label for="phone">Phone Number</label>
         <input type="tel" name="phone" id="phone" class="form-control" placeholder="Enter 10-digit mobile number" required>
       </div>
-
       <div class="form-group">
         <label for="email">Email Address (Optional)</label>
         <input type="email" name="_replyto" id="email" class="form-control" placeholder="name@example.com">
       </div>
-
       <div class="form-group">
         <label for="device">Device of Interest / Service Needed</label>
         <input type="text" name="device_interest" id="device" class="form-control" placeholder="e.g., iPhone 15 Pro stock, Display Repair cost">
       </div>
-
       <div class="form-group">
         <label for="message">Your Message</label>
         <textarea name="message" id="message" class="form-control" placeholder="Type your query details here..." required></textarea>
       </div>
-
-      <!-- Anti-Spam HoneyPot option -->
       <input type="text" name="_gotcha" style="display:none">
-
       <button type="submit" class="btn-submit">Send Secure Message</button>
     </form>
   </div>
@@ -428,8 +335,8 @@
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-       <h3 class="page-title" style="font-size:2rem; text-align:left;"><span class="o">Bharat</span> <span class="g">Sales</span></h3>
-       <p class="footer-desc">Tauru's most trusted mobile phone store. All brands, best prices, expert service — open 9 AM to 9 PM, every day.</p>
+      <h3 style="font-size:2rem; color: var(--white);"><span style="color:var(--orange);">Bharat</span> <span style="color:var(--green);">Sales</span></h3>
+      <p class="footer-desc">Tauru's most trusted mobile phone store. All brands, best prices, expert service — open 9 AM to 9 PM, every day.</p>
     </div>
     <div class="footer-col">
       <h4>Quick Links</h4>
@@ -464,5 +371,20 @@
   </div>
 </footer>
 
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function openMenu() {
+    hamburger.classList.add('open'); mobileMenu.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    hamburger.classList.remove('open'); mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false'); document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => { if (mobileMenu.classList.contains('open')) closeMenu(); else openMenu(); });
+  mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMenu(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+</script>
 </body>
 </html>
