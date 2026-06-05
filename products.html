@@ -5,7 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Collection – Bharat Sales Agency | Tauru</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@300;400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Sekuya&display=swap" rel="stylesheet">
+
 <style>
   :root {
     /* === LOGO PALETTE === */
@@ -41,7 +42,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Noto Sans', sans-serif;
+    font-family: "Black Ops One", system-ui;
     overflow-x: hidden;
   }
 
@@ -66,7 +67,7 @@
   .nav-brand {
     display: flex; align-items: center;
     text-decoration: none;
-    font-family: 'Bebas Neue', cursive;
+    font-family: "Black Ops One", system-ui;
     font-size: 1.8rem;
     letter-spacing: 0.05em;
   }
@@ -76,7 +77,7 @@
     display: flex; gap: 28px; list-style: none;
   }
   .nav-links a {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: "Black Ops One", system-ui;
     font-weight: 600; font-size: 0.92rem;
     color: var(--muted);
     text-decoration: none;
@@ -107,7 +108,7 @@
     background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
   }
   .page-title {
-    font-family: 'Bebas Neue', cursive;
+    font-family: "Black Ops One", system-ui;
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     color: var(--white);
     letter-spacing: 0.02em;
@@ -168,7 +169,7 @@
   .filter-tags::-webkit-scrollbar { display: none; } /* Chrome/Safari */
   
   .tag {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: "Black Ops One", system-ui;
     font-weight: 600; font-size: 0.85rem;
     letter-spacing: 0.05em;
     background: var(--card);
@@ -196,7 +197,7 @@
     min-height: 400px;
   }
   .results-count {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: "Black Ops One", system-ui;
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--muted);
@@ -238,14 +239,14 @@
   .phone-item:hover::after { opacity: 1; }
   .phone-item-emoji { font-size: 2.8rem; margin-bottom: 12px; }
   .phone-item-brand {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: "Black Ops One", system-ui;
     font-weight: 700; font-size: 0.7rem;
     color: var(--orange);
     letter-spacing: 0.16em; text-transform: uppercase;
     margin-bottom: 4px;
   }
   .phone-item-name {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: "Black Ops One", system-ui;
     font-weight: 600; font-size: 1.05rem;
     color: var(--white); line-height: 1.2;
     margin-bottom: 6px;
@@ -379,15 +380,14 @@
       <input type="text" id="searchInput" class="search-input" placeholder="Search brands, specs, or appliances...">
     </div>
     <div class="filter-tags" id="filterTags">
-      <button class="tag active" data-filter="all">All Devices</button>
+      <button class="tag active" data-filter="all">All</button>
       <button class="tag" data-filter="apple">Apple</button>
       <button class="tag" data-filter="samsung">Samsung</button>
       <button class="tag" data-filter="oneplus">OnePlus</button>
-      <button class="tag" data-filter="redmi">Redmi/Xiaomi</button>
+      <button class="tag" data-filter="redmi">Redmi</button>
       <button class="tag" data-filter="realme">Realme</button>
       <button class="tag" data-filter="vivo">Vivo</button>
       <button class="tag" data-filter="oppo">OPPO</button>
-      <button class="tag" data-filter="motorola">Motorola</button>
     </div>
   </div>
 </header>
@@ -465,37 +465,25 @@
     { brand: "Redmi", name: "Redmi 15A 5G", spec: "6.36\" AMOLED · 50MP · Snapdragon 8 Gen 3", price: "₹14,999", badge: "" },
     { brand: "Redmi", name: "Redmi 15C 5G", spec: "6.67\" LTPO AMOLED · 64MP · Snapdragon 8 Gen 2", price: "₹16,999", badge: "" },
     { brand: "Redmi", name: "Redmi Note 15 Pro+ 5G", spec: "6.67\" AMOLED · 200MP · 120W Charging", price: "₹41,999", badge: "" },
-    { brand: "Redmi", name: "Note 13 5G", spec: "6.67\" AMOLED · 108MP · 5G", price: "₹17,999", badge: "Hot" },
-    { brand: "Redmi", name: "Note 13", spec: "6.67\" AMOLED · 108MP · Helio G99 Ultra", price: "₹14,999", badge: "" },
-    { brand: "Redmi", name: "Redmi 13C", spec: "6.74\" HD+ · 50MP · Helio G85", price: "₹8,999", badge: "" },
-    { brand: "Redmi", name: "Redmi 12 5G", spec: "6.79\" IPS · 50MP · Snapdragon 4 Gen 2", price: "₹12,999", badge: "" },
-    { brand: "Redmi", name: "POCO X6 Pro", spec: "6.67\" AMOLED · 64MP · Dimensity 8300-Ultra", price: "₹26,999", badge: "Hot" },
-    { brand: "Redmi", name: "POCO M6 Pro", spec: "6.67\" AMOLED · 64MP · Helio G99 Ultra", price: "₹13,999", badge: "Hot" },
     { brand: "Realme", name: "16 PRO +", spec: "6.78\" LTPO AMOLED · Snapdragon 8s Gen 3", price: "₹40,999", badge: "New" },
     { brand: "Realme", name: "16", spec: "6.7\" AMOLED · 50MP Periscope Zoom · 5G", price: "₹33,999", badge: "Hot" },
     { brand: "Realme", name: "16T", spec: "6.7\" AMOLED · 50MP Periscope Zoom · 5G", price: "₹31,999", badge: "Hot" },
     { brand: "Realme", name: "15", spec: "6.67\" AMOLED · 50MP · Dimensity 7050", price: "₹29,999", badge: "" },
     { brand: "Realme", name: "15T", spec: "6.67\" IPS · 50MP · Helio G85 · 5000mAh", price: "₹27,999", badge: "Hot" },
     { brand: "Realme", name: "Realme C83", spec: "6.67\" LCD · 50MP · Helio G85", price: "₹20,499", badge: "" },
-    { brand: "Vivo", name: "V30 Pro", spec: "6.78\" AMOLED · 50MP Zeiss · 5G", price: "₹43,999", badge: "New" },
-    { brand: "Vivo", name: "V29 Pro", spec: "6.78\" AMOLED · 50MP · Dimensity 8200", price: "₹35,999", badge: "Hot" },
-    { brand: "Vivo", name: "Y200 Pro", spec: "6.78\" AMOLED · 64MP · Snapdragon 695", price: "₹22,999", badge: "" },
-    { brand: "Vivo", name: "T3x 5G", spec: "6.72\" IPS · 50MP · Snapdragon 6 Gen 1", price: "₹13,999", badge: "" },
-    { brand: "Vivo", name: "X100 Pro", spec: "6.78\" LTPO AMOLED · Zeiss Telephoto · Dimensity 9300", price: "₹89,999", badge: "" },
-    { brand: "OPPO", name: "Reno 12 Pro", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹35,999", badge: "Hot" },
-    { brand: "OPPO", name: "A79 5G", spec: "6.72\" IPS · 50MP · Dimensity 6020", price: "₹16,999", badge: "" },
-    { brand: "OPPO", name: "A3 Pro 5G", spec: "6.67\" AMOLED · 50MP · Dimensity 6300", price: "₹18,999", badge: "" },
-    { brand: "OPPO", name: "Find X7 Pro", spec: "6.82\" LTPO AMOLED · Hasselblad Tuning", price: "₹84,999", badge: "" },
-    { brand: "iQOO", name: "iQOO 12", spec: "6.78\" LTPO AMOLED · Snapdragon 8 Gen 3 · 144Hz", price: "₹52,999", badge: "New" },
-    { brand: "iQOO", name: "Neo 9 Pro", spec: "6.78\" LTPO AMOLED · Snapdragon 8 Gen 2 · 144Hz", price: "₹34,999", badge: "New" },
-    { brand: "iQOO", name: "Z9 5G", spec: "6.67\" AMOLED · 50MP · Snapdragon 7 Gen 3", price: "₹22,999", badge: "" },
-    { brand: "Motorola", name: "Edge 50 Pro", spec: "6.7\" pOLED · 50MP · Snapdragon 7s Gen 2", price: "₹31,999", badge: "" },
-    { brand: "Motorola", name: "Moto G85", spec: "6.67\" pOLED · 50MP · Snapdragon 6s Gen 3", price: "₹17,999", badge: "Hot" },
-    { brand: "Motorola", name: "Moto G64", spec: "6.5\" IPS · 50MP · Dimensity 7025 · 5G", price: "₹13,999", badge: "" },
-    { brand: "Motorola", name: "Razr 50 Ultra", spec: "6.9\" pOLED Foldable · Snapdragon 8s Gen 3", price: "₹99,999", badge: "" },
-    { brand: "Nothing", name: "Phone (2a)", spec: "6.7\" AMOLED · 50MP · Dimensity 7200 Pro", price: "₹23,999", badge: "New" },
-    { brand: "Nothing", name: "Nothing Phone (2)", spec: "6.7\" LTPO AMOLED · 50MP · Snapdragon 8+ Gen 1", price: "₹44,999", badge: "" },
-    { brand: "Nokia", name: "Nokia G42 5G", spec: "6.56\" IPS · 50MP · Snapdragon 480+ · Repairable", price: "₹16,999", badge: "" }
+    { brand: "Vivo", name: "V70 ELITE", spec: "6.78\" AMOLED · 50MP Zeiss · 5G", price: "₹54,999", badge: "New" },
+    { brand: "Vivo", name: "V70", spec: "6.78\" AMOLED · 50MP · Dimensity 8200", price: "₹49,999", badge: "Hot" },
+    { brand: "Vivo", name: "Y70 FE", spec: "6.78\" AMOLED · 64MP · Snapdragon 695", price: "₹40,999", badge: "" },
+    { brand: "Vivo", name: "Y51 PRO", spec: "6.72\" IPS · 50MP · Snapdragon 6 Gen 1", price: "₹27,999", badge: "" },
+    { brand: "Vivo", name: "X300 FE", spec: "6.78\" LTPO AMOLED · Zeiss Telephoto · Dimensity 9300", price: "₹79,999", badge: "" },
+    { brand: "OPPO", name: "Reno 15 Pro MINI", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹59,999", badge: "Hot" },
+    { brand: "OPPO", name: "Reno 15C", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹41,999", badge: "" },
+    { brand: "OPPO", name: "Reno 15", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹47,999", badge: "" },
+    { brand: "OPPO", name: "F33", spec: "6.72\" IPS · 50MP · Dimensity 6020", price: "₹34,999", badge: "" },
+    { brand: "OPPO", name: "F33 PRO", spec: "6.72\" IPS · 50MP · Dimensity 6020", price: "₹37,999", badge: "" },
+    { brand: "OPPO", name: "A6 Pro 5G", spec: "6.67\" AMOLED · 50MP · Dimensity 6300", price: "₹27,999", badge: "" },
+    { brand: "OPPO", name: "Find X9S", spec: "6.82\" LTPO AMOLED · Hasselblad Tuning", price: "₹79,999", badge: "" },
+
   ];
 
   const grid = document.getElementById('productsGrid');
