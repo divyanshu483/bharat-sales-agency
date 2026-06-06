@@ -271,9 +271,110 @@
     td, th { padding: 10px 10px; }
     .td-spec { max-width: 120px; }
   }
+
+  /* ── PASSWORD LOCK SCREEN ── */
+  #lockScreen {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg-deep);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  #lockScreen::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .lock-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+    padding: 48px 40px; max-width: 400px; width: 100%; text-align: center;
+    position: relative; z-index: 1;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(244,123,32,0.08);
+    animation: lockCardIn .4s cubic-bezier(.22,1,.36,1);
+  }
+  @keyframes lockCardIn { from { opacity:0; transform: scale(0.92) translateY(20px); } to { opacity:1; transform: scale(1) translateY(0); } }
+  .lock-logo { height: 60px; width: auto; margin-bottom: 20px; filter: drop-shadow(0 4px 16px rgba(244,123,32,0.4)); }
+  .lock-title { font-size: 1.5rem; color: var(--white); letter-spacing: 0.04em; margin-bottom: 6px; }
+  .lock-title .o { color: var(--orange); }
+  .lock-sub { font-size: 0.76rem; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 32px; }
+  .lock-icon { font-size: 3rem; margin-bottom: 16px; display: block; }
+  .lock-label { display: block; font-size: 0.64rem; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; text-align: left; }
+  .lock-input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    padding: 14px 16px; border-radius: 12px; color: var(--white);
+    font-family: "Black Ops One", system-ui; font-size: 1.1rem; outline: none;
+    text-align: center; letter-spacing: 0.2em; margin-bottom: 16px;
+    transition: border-color .25s, box-shadow .25s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .lock-input:focus { border-color: var(--orange); box-shadow: 0 0 16px rgba(244,123,32,0.2); }
+  .lock-input.shake {
+    animation: shake .4s ease;
+    border-color: var(--red) !important;
+    box-shadow: 0 0 16px rgba(224,82,82,0.3) !important;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+  }
+  .btn-unlock {
+    width: 100%; padding: 14px; border-radius: 12px; border: none;
+    background: var(--orange); color: #fff;
+    font-family: "Black Ops One", system-ui; font-size: 1rem; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer;
+    transition: background .2s, transform .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-unlock:hover { background: var(--orange-dark); transform: translateY(-1px); }
+  .btn-unlock:active { transform: translateY(0); }
+  .lock-error {
+    display: none; color: var(--red); font-size: 0.76rem;
+    letter-spacing: 0.06em; margin-top: 12px; text-align: center;
+  }
+  .lock-error.show { display: block; }
+  .lock-hint { font-size: 0.6rem; color: var(--muted); opacity: 0.5; margin-top: 20px; letter-spacing: 0.05em; }
+
+  /* ── ADMIN CONTENT (hidden until unlocked) ── */
+  #adminContent { display: none; }
+  #adminContent.unlocked { display: block; }
+
+  /* ── SYNC STATUS ── */
+  .sync-status {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.68rem; color: var(--green); letter-spacing: 0.08em;
+    margin-top: 10px; text-align: center; justify-content: center;
+  }
+  .sync-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+  .sync-status.synced { color: var(--green); }
+  .sync-status.synced .sync-dot { background: var(--green); }
 </style>
 </head>
 <body>
+
+<!-- ── LOCK SCREEN ── -->
+<div id="lockScreen">
+  <div class="lock-card">
+    <img class="lock-logo" src="https://i.ibb.co/1G7hhV1t/851872.jpg" alt="Bharat Sales Agency">
+    <span class="lock-icon">🔐</span>
+    <div class="lock-title"><span class="o">Admin</span> Access</div>
+    <div class="lock-sub">BHARAT SALES AGENCY · TAURU</div>
+    <label class="lock-label" for="lockPassword">Enter Password</label>
+    <input type="password" class="lock-input" id="lockPassword" placeholder="••••••••" autocomplete="current-password">
+    <button class="btn-unlock" onclick="tryUnlock()">🔓 Unlock Admin Panel</button>
+    <div class="lock-error" id="lockError">❌ Incorrect password. Try again.</div>
+    <div class="lock-hint">Authorised personnel only</div>
+  </div>
+</div>
+
+<!-- ── ADMIN CONTENT ── -->
+<div id="adminContent">
 
 <!-- NAV -->
 <nav>
@@ -282,6 +383,7 @@
     <span class="admin-badge">Admin</span>
   </a>
   <a class="nav-back" href="products.html">← Back to Shop</a>
+  <button onclick="logout()" style="background:rgba(224,82,82,0.12);border:1px solid rgba(224,82,82,0.3);color:var(--red);padding:7px 16px;border-radius:8px;font-family:'Black Ops One',system-ui;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='rgba(224,82,82,0.25)'" onmouseout="this.style.background='rgba(224,82,82,0.12)'">🔒 Lock</button>
 </nav>
 
 <!-- HEADER -->
@@ -372,10 +474,13 @@
     <div class="success-toast" id="toast">✅ Phone added successfully!</div>
 
     <div class="export-panel">
-      <div class="export-title">🔄 Sync to Website</div>
-      <button class="btn-export" onclick="copyProductsJS()">📋 Copy products.js Code</button>
-      <button class="btn-export" onclick="downloadProductsJS()">⬇️ Download products.js</button>
-      <div class="export-hint">After adding/removing phones, copy or download the updated products list and replace the <code style="color:var(--orange)">const products = [...]</code> section in your products.html</div>
+      <div class="export-title">🔄 Auto-Sync Active</div>
+      <div class="sync-status synced" id="syncStatus">
+        <span class="sync-dot"></span>
+        <span id="syncMsg">Products page updates automatically</span>
+      </div>
+      <div class="export-hint" style="margin-top:14px;">Changes you make here are <span style="color:var(--green);">instantly saved</span> and will show on your <strong style="color:var(--white);">products.html</strong> page automatically — no copy-paste needed!</div>
+      <button class="btn-export" onclick="downloadProductsJS()" style="margin-top:12px;">⬇️ Backup: Download products.js</button>
     </div>
   </aside>
 
@@ -424,7 +529,56 @@
   </div>
 </div>
 
+</div><!-- /#adminContent -->
+
 <script>
+// ── PASSWORD & LOCK ──
+const ADMIN_PASSWORD = 'BSA@admin2025'; // ← Change this to your password
+const SESSION_KEY = 'bsa_admin_unlocked';
+
+function tryUnlock() {
+  const val = document.getElementById('lockPassword').value;
+  const input = document.getElementById('lockPassword');
+  const err = document.getElementById('lockError');
+
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, '1');
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('adminContent').classList.add('unlocked');
+    err.classList.remove('show');
+    input.value = '';
+    // Init admin after unlock
+    loadProducts(); updateBrandFilter(); renderTable(); updateStats(); setBadge('');
+  } else {
+    input.classList.remove('shake');
+    void input.offsetWidth; // reflow to restart animation
+    input.classList.add('shake');
+    err.classList.add('show');
+    input.value = '';
+    input.focus();
+    setTimeout(() => { input.classList.remove('shake'); err.classList.remove('show'); }, 2500);
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById('lockPassword').value = '';
+  document.getElementById('lockScreen').style.display = 'flex';
+  document.getElementById('adminContent').classList.remove('unlocked');
+}
+
+// Allow Enter key on password field
+document.getElementById('lockPassword').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') tryUnlock();
+});
+
+// Auto-unlock if session is still valid
+if (sessionStorage.getItem(SESSION_KEY) === '1') {
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('adminContent').classList.add('unlocked');
+  loadProducts(); updateBrandFilter(); renderTable(); updateStats(); setBadge('');
+}
+
 // ── DEFAULT PRODUCTS (from products.html) ──
 const DEFAULT_PRODUCTS = [
   { brand: "Apple", name: "iPhone 15", spec: "6.1\" OLED · 48MP · A16 Bionic", price: "₹59,900", badge: "New" },
@@ -488,6 +642,12 @@ function loadProducts() {
 }
 function saveProducts() {
   localStorage.setItem('bsa_products', JSON.stringify(products));
+  // Show sync flash
+  const msg = document.getElementById('syncMsg');
+  if (msg) {
+    msg.textContent = '✅ Synced to products page!';
+    setTimeout(() => { msg.textContent = 'Products page updates automatically'; }, 2000);
+  }
 }
 
 // ── BADGE SELECTION ──
@@ -655,12 +815,7 @@ function downloadProductsJS() {
   a.click();
 }
 
-// ── INIT ──
-loadProducts();
-updateBrandFilter();
-renderTable();
-updateStats();
-setBadge('');
+// ── INIT ── (called after unlock, or on auto-session-restore above)
 </script>
 </body>
 </html>
