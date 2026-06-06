@@ -342,7 +342,24 @@
   </div>
 </footer>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB6g600ANsokIBdKSr6RgA1RodqHY5NUbM",
+    authDomain: "bharatsalesagency-c54e9.firebaseapp.com",
+    databaseURL: "https://bharatsalesagency-c54e9-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "bharatsalesagency-c54e9",
+    storageBucket: "bharatsalesagency-c54e9.firebasestorage.app",
+    messagingSenderId: "173287323539",
+    appId: "1:173287323539:web:81132a03f15bc473699a66"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const productsRef = ref(db, 'products');
+
   // ── HAMBURGER MENU ──
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -358,73 +375,6 @@
   mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMenu(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
-  // ── PRODUCTS DATA ── (auto-synced from Admin Panel via localStorage)
-  const DEFAULT_PRODUCTS = [
-    { brand: "Apple", name: "iPhone 15", spec: "6.1\" OLED · 48MP · A16 Bionic", price: "₹59,900", badge: "New" },
-    { brand: "Apple", name: "iPhone 16", spec: "6.1\" ProMotion · 48MP · A17 Pro", price: "₹69,900", badge: "New" },
-    { brand: "Apple", name: "iPhone 17", spec: "6.1\" OLED · 12MP · A15 Bionic", price: "₹82,900", badge: "" },
-    { brand: "Apple", name: "iPhone 17 Pro", spec: "6.1\" OLED · 12MP · A15 Bionic", price: "₹1,35,900", badge: "" },
-    { brand: "Samsung", name: "Galaxy S24", spec: "6.2\" AMOLED · 50MP · Snapdragon 8 Gen 3", price: "₹74,999", badge: "Hot" },
-    { brand: "Samsung", name: "Galaxy S24 Ultra", spec: "6.8\" QHD+ · 200MP · S Pen", price: "₹1,29,999", badge: "" },
-    { brand: "Samsung", name: "Galaxy A55", spec: "6.6\" Super AMOLED · 50MP · 5G", price: "₹34,999", badge: "Hot" },
-    { brand: "Samsung", name: "Galaxy M34", spec: "6.5\" AMOLED · 50MP · 6000mAh", price: "₹18,999", badge: "" },
-    { brand: "Samsung", name: "Galaxy A35", spec: "6.6\" Super AMOLED · 50MP · Exynos 1380", price: "₹24,999", badge: "" },
-    { brand: "Samsung", name: "Galaxy M55", spec: "6.7\" Super AMOLED · 50MP · Snapdragon 7 Gen 1", price: "₹24,999", badge: "" },
-    { brand: "Samsung", name: "Galaxy F55 5G", spec: "6.7\" AMOLED · 50MP · Snapdragon 7 Gen 1", price: "₹26,999", badge: "" },
-    { brand: "Samsung", name: "Galaxy Z Flip 5", spec: "6.7\" Foldable AMOLED · Snapdragon 8 Gen 2", price: "₹99,999", badge: "" },
-    { brand: "Samsung", name: "Galaxy Z Fold 5", spec: "7.6\" Foldable · Snapdragon 8 Gen 2 · S Pen", price: "₹1,54,999", badge: "" },
-    { brand: "OnePlus", name: "OnePlus 10R", spec: "6.82\" LTPO AMOLED · Snapdragon 8 Gen 3", price: "₹29,999", badge: "New" },
-    { brand: "OnePlus", name: "OnePlus 13R", spec: "6.78\" LTPO AMOLED · 50MP · Snapdragon 8 Gen 2", price: "₹49,999", badge: "Hot" },
-    { brand: "OnePlus", name: "Nord CE 4", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹24,999", badge: "" },
-    { brand: "OnePlus", name: "Nord 4", spec: "6.74\" AMOLED · 50MP · Snapdragon 7+ Gen 3", price: "₹33,999", badge: "" },
-    { brand: "OnePlus", name: "Nord 5", spec: "6.72\" IPS · 108MP · Snapdragon 695", price: "₹33,999", badge: "" },
-    { brand: "OnePlus", name: "Nord C6 LITE", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹22,999", badge: "" },
-    { brand: "OnePlus", name: "Nord C6", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹31,999", badge: "" },
-    { brand: "OnePlus", name: "Nord 6", spec: "6.7\" AMOLED · 50MP · Snapdragon 7s Gen 2", price: "₹41,999", badge: "" },
-    { brand: "Redmi", name: "Redmi Note 15 5G", spec: "6.73\" LTPO AMOLED · Leica Quad Camera", price: "₹26,999", badge: "Hot" },
-    { brand: "Redmi", name: "Redmi 15A 5G", spec: "6.36\" AMOLED · 50MP · Snapdragon 8 Gen 3", price: "₹14,999", badge: "" },
-    { brand: "Redmi", name: "Redmi 15C 5G", spec: "6.67\" LTPO AMOLED · 64MP · Snapdragon 8 Gen 2", price: "₹16,999", badge: "" },
-    { brand: "Redmi", name: "Redmi Note 15 Pro+ 5G", spec: "6.67\" AMOLED · 200MP · 120W Charging", price: "₹41,999", badge: "" },
-    { brand: "Realme", name: "16 PRO+", spec: "6.78\" LTPO AMOLED · Snapdragon 8s Gen 3", price: "₹40,999", badge: "New" },
-    { brand: "Realme", name: "16", spec: "6.7\" AMOLED · 50MP Periscope Zoom · 5G", price: "₹33,999", badge: "Hot" },
-    { brand: "Realme", name: "16T", spec: "6.7\" AMOLED · 50MP Periscope Zoom · 5G", price: "₹31,999", badge: "Hot" },
-    { brand: "Realme", name: "15", spec: "6.67\" AMOLED · 50MP · Dimensity 7050", price: "₹29,999", badge: "" },
-    { brand: "Realme", name: "15T", spec: "6.67\" IPS · 50MP · Helio G85 · 5000mAh", price: "₹27,999", badge: "Hot" },
-    { brand: "Realme", name: "C83", spec: "6.67\" LCD · 50MP · Helio G85", price: "₹20,499", badge: "" },
-    { brand: "Vivo", name: "V70 ELITE", spec: "6.78\" AMOLED · 50MP Zeiss · 5G", price: "₹54,999", badge: "New" },
-    { brand: "Vivo", name: "V70", spec: "6.78\" AMOLED · 50MP · Dimensity 8200", price: "₹49,999", badge: "Hot" },
-    { brand: "Vivo", name: "Y70 FE", spec: "6.78\" AMOLED · 64MP · Snapdragon 695", price: "₹40,999", badge: "" },
-    { brand: "Vivo", name: "Y51 PRO", spec: "6.72\" IPS · 50MP · Snapdragon 6 Gen 1", price: "₹27,999", badge: "" },
-    { brand: "Vivo", name: "X300 FE", spec: "6.78\" LTPO AMOLED · Zeiss Telephoto · Dimensity 9300", price: "₹79,999", badge: "" },
-    { brand: "OPPO", name: "Reno 15 Pro MINI", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹59,999", badge: "Hot" },
-    { brand: "OPPO", name: "Reno 15C", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹41,999", badge: "" },
-    { brand: "OPPO", name: "Reno 15", spec: "6.7\" AMOLED · 50MP AI Camera · 80W", price: "₹47,999", badge: "" },
-    { brand: "OPPO", name: "F33", spec: "6.72\" IPS · 50MP · Dimensity 6020", price: "₹34,999", badge: "" },
-    { brand: "OPPO", name: "F33 PRO", spec: "6.72\" IPS · 50MP · Dimensity 6020", price: "₹37,999", badge: "" },
-    { brand: "OPPO", name: "A6 Pro 5G", spec: "6.67\" AMOLED · 50MP · Dimensity 6300", price: "₹27,999", badge: "" },
-    { brand: "OPPO", name: "Find X9S", spec: "6.82\" LTPO AMOLED · Hasselblad Tuning", price: "₹79,999", badge: "" },
-  ];
-
-  // Load from localStorage (set by admin panel) or fall back to defaults
-  let products;
-  try {
-    const saved = localStorage.getItem('bsa_products');
-    products = saved ? JSON.parse(saved) : DEFAULT_PRODUCTS;
-  } catch(e) {
-    products = DEFAULT_PRODUCTS;
-  }
-
-  // Listen for real-time updates from admin panel (same browser, different tab)
-  window.addEventListener('storage', function(e) {
-    if (e.key === 'bsa_products') {
-      try {
-        products = e.newValue ? JSON.parse(e.newValue) : DEFAULT_PRODUCTS;
-        renderProducts();
-      } catch(err) { /* ignore */ }
-    }
-  });
-
-
   const grid = document.getElementById('productsGrid');
   const searchInput = document.getElementById('searchInput');
   const tags = document.querySelectorAll('.tag');
@@ -432,6 +382,7 @@
 
   let activeFilter = 'all';
   let searchQuery = '';
+  let products = [];
 
   function renderProducts() {
     grid.innerHTML = '';
@@ -482,6 +433,14 @@
     });
   }
 
+  // ── LOAD FROM FIREBASE (live sync across ALL devices) ──
+  countDisplay.innerText = "Loading...";
+  onValue(productsRef, (snapshot) => {
+    const data = snapshot.val();
+    products = (data && Array.isArray(data)) ? data : [];
+    renderProducts();
+  });
+
   searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.toLowerCase();
     renderProducts();
@@ -495,8 +454,6 @@
       renderProducts();
     });
   });
-
-  renderProducts();
 </script>
 </body>
 </html>
