@@ -358,8 +358,8 @@
   mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMenu(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
-  // ── PRODUCTS DATA ──
-  const products = [
+  // ── PRODUCTS DATA ── (auto-synced from Admin Panel via localStorage)
+  const DEFAULT_PRODUCTS = [
     { brand: "Apple", name: "iPhone 15", spec: "6.1\" OLED · 48MP · A16 Bionic", price: "₹59,900", badge: "New" },
     { brand: "Apple", name: "iPhone 16", spec: "6.1\" ProMotion · 48MP · A17 Pro", price: "₹69,900", badge: "New" },
     { brand: "Apple", name: "iPhone 17", spec: "6.1\" OLED · 12MP · A15 Bionic", price: "₹82,900", badge: "" },
@@ -404,6 +404,26 @@
     { brand: "OPPO", name: "A6 Pro 5G", spec: "6.67\" AMOLED · 50MP · Dimensity 6300", price: "₹27,999", badge: "" },
     { brand: "OPPO", name: "Find X9S", spec: "6.82\" LTPO AMOLED · Hasselblad Tuning", price: "₹79,999", badge: "" },
   ];
+
+  // Load from localStorage (set by admin panel) or fall back to defaults
+  let products;
+  try {
+    const saved = localStorage.getItem('bsa_products');
+    products = saved ? JSON.parse(saved) : DEFAULT_PRODUCTS;
+  } catch(e) {
+    products = DEFAULT_PRODUCTS;
+  }
+
+  // Listen for real-time updates from admin panel (same browser, different tab)
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'bsa_products') {
+      try {
+        products = e.newValue ? JSON.parse(e.newValue) : DEFAULT_PRODUCTS;
+        renderProducts();
+      } catch(err) { /* ignore */ }
+    }
+  });
+
 
   const grid = document.getElementById('productsGrid');
   const searchInput = document.getElementById('searchInput');
