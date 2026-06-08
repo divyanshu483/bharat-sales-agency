@@ -340,6 +340,23 @@
   #adminContent { display: none; }
   #adminContent.unlocked { display: block; }
 
+  /* ── CATEGORY SWITCHER ── */
+  .category-switcher {
+    display: flex; gap: 0; border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border); margin-bottom: 20px; width: 100%;
+  }
+  .cat-btn {
+    flex: 1; padding: 12px 8px; border: none; cursor: pointer;
+    font-family: "Black Ops One", system-ui; font-size: 0.82rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--surface); color: var(--muted);
+    transition: background .2s, color .2s; text-align: center;
+  }
+  .cat-btn:first-child { border-right: 1px solid var(--border); }
+  .cat-btn.active-mobile { background: var(--orange); color: #fff; }
+  .cat-btn.active-elec { background: #3B82F6; color: #fff; }
+  .cat-btn:not(.active-mobile):not(.active-elec):hover { background: var(--card-hover); color: var(--text); }
+
   /* ── SYNC STATUS ── */
   .sync-status {
     display: flex; align-items: center; gap: 8px;
@@ -420,10 +437,16 @@
 
   <!-- ADD FORM -->
   <aside class="add-panel">
-    <div class="panel-title">Add New Phone</div>
+    <div class="panel-title" id="panelTitle">Add New Product</div>
 
-    <div class="form-group">
-      <label>Brand</label>
+    <!-- CATEGORY SWITCHER -->
+    <div class="category-switcher">
+      <button class="cat-btn active-mobile" id="catMobile" onclick="switchCategory('mobiles')">📱 Mobiles</button>
+      <button class="cat-btn" id="catElec" onclick="switchCategory('electronics')">⚡ Electronics</button>
+    </div>
+
+    <div class="form-group" id="brandGroup">
+      <label id="brandLabel">Brand</label>
       <select class="form-select" id="newBrand">
         <option value="">Select brand…</option>
         <option value="Apple">Apple</option>
@@ -447,13 +470,13 @@
     </div>
 
     <div class="form-group">
-      <label>Model Name</label>
+      <label id="nameLabel">Model / Product Name</label>
       <input type="text" class="form-input" id="newName" placeholder="e.g. Galaxy S25">
     </div>
 
     <div class="form-group">
-      <label>Specs</label>
-      <input type="text" class="form-input" id="newSpec" placeholder="e.g. 6.2\" AMOLED · 50MP · 5G">
+      <label id="specLabel">Specs / Description</label>
+      <input type="text" class="form-input" id="newSpec" placeholder="e.g. 6.2&quot; AMOLED · 50MP · 5G">
     </div>
 
     <div class="form-group">
@@ -470,8 +493,8 @@
       </div>
     </div>
 
-    <button class="btn-add" onclick="addPhone()">+ Add to Inventory</button>
-    <div class="success-toast" id="toast">✅ Phone added successfully!</div>
+    <button class="btn-add" id="addBtn" onclick="addPhone()">+ Add to Inventory</button>
+    <div class="success-toast" id="toast">✅ Added successfully!</div>
 
     <div class="export-panel">
       <div class="export-title">🔄 Auto-Sync Active</div>
@@ -479,8 +502,8 @@
         <span class="sync-dot"></span>
         <span id="syncMsg">Products page updates automatically</span>
       </div>
-      <div class="export-hint" style="margin-top:14px;">Changes you make here are <span style="color:var(--green);">instantly saved</span> and will show on your <strong style="color:var(--white);">products.html</strong> page automatically — no copy-paste needed!</div>
-      <button class="btn-export" onclick="downloadProductsJS()" style="margin-top:12px;">⬇️ Backup: Download products.js</button>
+      <div class="export-hint" style="margin-top:14px;">Changes are <span style="color:var(--green);">instantly saved</span> to Firebase and sync across all devices!</div>
+      <button class="btn-export" onclick="downloadProductsJS()" style="margin-top:12px;">⬇️ Backup Data</button>
     </div>
   </aside>
 
@@ -489,12 +512,12 @@
     <div class="list-controls">
       <div class="search-wrap">
         <span class="search-icon">🔍</span>
-        <input type="text" class="search-input" id="searchInput" placeholder="Search phones…" oninput="renderTable()">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search…" oninput="renderTable()">
       </div>
       <select class="filter-select" id="brandFilter" onchange="renderTable()">
         <option value="all">All Brands</option>
       </select>
-      <span class="count-label" id="countLabel">0 phones</span>
+      <span class="count-label" id="countLabel">0 items</span>
     </div>
 
     <div class="phone-table-wrap">
@@ -548,12 +571,133 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const productsRef = ref(db, 'products');
 
 // ── PASSWORD & LOCK ──
-const ADMIN_PASSWORD = 'BSA@admin2025'; // ← Change this to your password
+const ADMIN_PASSWORD = 'BSA@admin2025';
 const SESSION_KEY = 'bsa_admin_unlocked';
 
+// ── CATEGORY STATE ──
+let currentCategory = 'mobiles'; // 'mobiles' or 'electronics'
+let products = [];
+let electronics = [];
+let selectedBadge = '';
+let deleteIndex = -1;
+let unsubscribeMobiles = null;
+let unsubscribeElec = null;
+
+const MOBILE_BRANDS = ['Apple','Samsung','OnePlus','Redmi','Realme','Vivo','OPPO','Motorola','Nokia','iQOO','Nothing','Other'];
+const ELEC_BRANDS = ['Samsung','Sony','LG','Philips','Panasonic','boAt','JBL','Mi','Zebronics','Havells','Prestige','Bajaj','Other'];
+
+// ── CATEGORY SWITCHER ──
+function switchCategory(cat) {
+  currentCategory = cat;
+  const isMobile = cat === 'mobiles';
+
+  document.getElementById('catMobile').className = 'cat-btn' + (isMobile ? ' active-mobile' : '');
+  document.getElementById('catElec').className = 'cat-btn' + (!isMobile ? ' active-elec' : '');
+  document.getElementById('panelTitle').textContent = isMobile ? 'Add New Mobile' : 'Add New Electronic';
+  document.getElementById('nameLabel').textContent = isMobile ? 'Model Name' : 'Product Name';
+  document.getElementById('specLabel').textContent = isMobile ? 'Specs' : 'Description';
+  document.getElementById('addBtn').textContent = isMobile ? '+ Add Mobile' : '+ Add Electronic';
+  document.getElementById('newName').placeholder = isMobile ? 'e.g. Galaxy S25' : 'e.g. boAt Airdopes 141';
+  document.getElementById('newSpec').placeholder = isMobile ? 'e.g. 6.2" AMOLED · 50MP · 5G' : 'e.g. TWS Earbuds · 42H Battery · BT 5.3';
+
+  // Swap brand options
+  const sel = document.getElementById('newBrand');
+  const brands = isMobile ? MOBILE_BRANDS : ELEC_BRANDS;
+  sel.innerHTML = '<option value="">Select brand…</option>' + brands.map(b => `<option value="${b}">${b}</option>`).join('');
+
+  // Reset form
+  sel.value = '';
+  document.getElementById('newBrandCustom').value = '';
+  document.getElementById('newName').value = '';
+  document.getElementById('newSpec').value = '';
+  document.getElementById('newPrice').value = '';
+  setBadge('');
+
+  renderTable();
+  updateStats();
+  updateBrandFilter();
+}
+window.switchCategory = switchCategory;
+
+// ── FIREBASE: GET CURRENT PRODUCTS ──
+function getCurrentProducts() {
+  return currentCategory === 'mobiles' ? products : electronics;
+}
+function getCurrentRef() {
+  return ref(db, currentCategory === 'mobiles' ? 'products' : 'electronics');
+}
+
+// ── FIREBASE: LOAD BOTH ──
+function startFirebaseListeners() {
+  onValue(ref(db, 'products'), (snap) => {
+    const data = snap.val();
+    if (data && Array.isArray(data)) products = data;
+    else if (!data) { products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)); set(ref(db,'products'), products); }
+    if (currentCategory === 'mobiles') { updateBrandFilter(); renderTable(); updateStats(); }
+    setSyncMsg('🌐 Live sync active');
+  });
+
+  onValue(ref(db, 'electronics'), (snap) => {
+    const data = snap.val();
+    if (data && Array.isArray(data)) electronics = data;
+    else if (!data) electronics = [];
+    if (currentCategory === 'electronics') { updateBrandFilter(); renderTable(); updateStats(); }
+  });
+}
+
+// ── FIREBASE: SAVE ──
+function saveProducts() {
+  setSyncMsg('⏳ Saving...');
+  set(getCurrentRef(), getCurrentProducts()).then(() => {
+    setSyncMsg('✅ Saved & synced to all devices!');
+    setTimeout(() => setSyncMsg('🌐 Live sync active'), 2500);
+  }).catch(err => setSyncMsg('❌ Save failed: ' + err.message));
+}
+
+function setSyncMsg(msg) {
+  const el = document.getElementById('syncMsg');
+  if (el) el.textContent = msg;
+}
+
+// ── PASSWORD ──
+function tryUnlock() {
+  const val = document.getElementById('lockPassword').value;
+  const input = document.getElementById('lockPassword');
+  const err = document.getElementById('lockError');
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, '1');
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('adminContent').classList.add('unlocked');
+    err.classList.remove('show'); input.value = '';
+    startFirebaseListeners(); setBadge('');
+  } else {
+    input.classList.remove('shake'); void input.offsetWidth;
+    input.classList.add('shake'); err.classList.add('show');
+    input.value = ''; input.focus();
+    setTimeout(() => { input.classList.remove('shake'); err.classList.remove('show'); }, 2500);
+  }
+}
+window.tryUnlock = tryUnlock;
+
+function logout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById('lockPassword').value = '';
+  document.getElementById('lockScreen').style.display = 'flex';
+  document.getElementById('adminContent').classList.remove('unlocked');
+}
+window.logout = logout;
+
+document.getElementById('lockPassword').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+if (sessionStorage.getItem(SESSION_KEY) === '1') {
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('adminContent').classList.add('unlocked');
+  startFirebaseListeners(); setBadge('');
+}
+
+// ── DEFAULT MOBILES ──
 const DEFAULT_PRODUCTS = [
   { brand: "Apple", name: "iPhone 15", spec: "6.1\" OLED · 48MP · A16 Bionic", price: "₹59,900", badge: "New" },
   { brand: "Apple", name: "iPhone 16", spec: "6.1\" ProMotion · 48MP · A17 Pro", price: "₹69,900", badge: "New" },
@@ -600,94 +744,6 @@ const DEFAULT_PRODUCTS = [
   { brand: "OPPO", name: "Find X9S", spec: "6.82\" LTPO AMOLED · Hasselblad Tuning", price: "₹79,999", badge: "" },
 ];
 
-// ── STATE ──
-let products = [];
-let selectedBadge = '';
-let deleteIndex = -1;
-let fbListenerActive = false;
-
-// ── FIREBASE: LOAD & LISTEN ──
-function startFirebaseListener() {
-  if (fbListenerActive) return;
-  fbListenerActive = true;
-  onValue(productsRef, (snapshot) => {
-    const data = snapshot.val();
-    if (data && Array.isArray(data)) {
-      products = data;
-    } else if (!data) {
-      // First time — push defaults to Firebase
-      products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-      set(productsRef, products);
-    }
-    updateBrandFilter();
-    renderTable();
-    updateStats();
-    setSyncMsg('✅ Live — synced across all devices');
-  }, (error) => {
-    setSyncMsg('⚠️ Firebase error: ' + error.message);
-  });
-}
-
-// ── FIREBASE: SAVE ──
-function saveProducts() {
-  setSyncMsg('⏳ Saving...');
-  set(productsRef, products).then(() => {
-    setSyncMsg('✅ Saved & synced to all devices!');
-    setTimeout(() => setSyncMsg('🌐 Live sync active'), 2500);
-  }).catch(err => {
-    setSyncMsg('❌ Save failed: ' + err.message);
-  });
-}
-
-function setSyncMsg(msg) {
-  const el = document.getElementById('syncMsg');
-  if (el) el.textContent = msg;
-}
-
-// ── PASSWORD & LOCK ──
-function tryUnlock() {
-  const val = document.getElementById('lockPassword').value;
-  const input = document.getElementById('lockPassword');
-  const err = document.getElementById('lockError');
-  if (val === ADMIN_PASSWORD) {
-    sessionStorage.setItem(SESSION_KEY, '1');
-    document.getElementById('lockScreen').style.display = 'none';
-    document.getElementById('adminContent').classList.add('unlocked');
-    err.classList.remove('show');
-    input.value = '';
-    startFirebaseListener();
-    setBadge('');
-  } else {
-    input.classList.remove('shake');
-    void input.offsetWidth;
-    input.classList.add('shake');
-    err.classList.add('show');
-    input.value = '';
-    input.focus();
-    setTimeout(() => { input.classList.remove('shake'); err.classList.remove('show'); }, 2500);
-  }
-}
-window.tryUnlock = tryUnlock;
-
-function logout() {
-  sessionStorage.removeItem(SESSION_KEY);
-  document.getElementById('lockPassword').value = '';
-  document.getElementById('lockScreen').style.display = 'flex';
-  document.getElementById('adminContent').classList.remove('unlocked');
-}
-window.logout = logout;
-
-document.getElementById('lockPassword').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') tryUnlock();
-});
-
-if (sessionStorage.getItem(SESSION_KEY) === '1') {
-  document.getElementById('lockScreen').style.display = 'none';
-  document.getElementById('adminContent').classList.add('unlocked');
-  startFirebaseListener();
-  setBadge('');
-}
-
 // ── BADGE SELECTION ──
 function setBadge(val) {
   selectedBadge = val;
@@ -697,7 +753,7 @@ function setBadge(val) {
 }
 window.setBadge = setBadge;
 
-// ── ADD PHONE ──
+// ── ADD PRODUCT ──
 function addPhone() {
   const brandSelect = document.getElementById('newBrand').value;
   const brandCustom = document.getElementById('newBrandCustom').value.trim();
@@ -711,7 +767,7 @@ function addPhone() {
   if (!spec) { highlight('newSpec'); return; }
   if (!price) { highlight('newPrice'); return; }
 
-  products.unshift({ brand, name, spec, price, badge: selectedBadge });
+  getCurrentProducts().unshift({ brand, name, spec, price, badge: selectedBadge });
   saveProducts();
 
   document.getElementById('newBrand').value = '';
@@ -729,8 +785,7 @@ window.addPhone = addPhone;
 
 function highlight(id) {
   const el = document.getElementById(id);
-  el.style.borderColor = 'var(--red)';
-  el.focus();
+  el.style.borderColor = 'var(--red)'; el.focus();
   setTimeout(() => el.style.borderColor = '', 1500);
 }
 
@@ -753,24 +808,20 @@ window.closeModal = closeModal;
 function confirmDelete() {
   const filtered = getFiltered();
   const item = filtered[deleteIndex];
-  const realIndex = products.findIndex(p => p.brand === item.brand && p.name === item.name && p.spec === item.spec);
-  if (realIndex !== -1) {
-    products.splice(realIndex, 1);
-    saveProducts();
-  }
+  const list = getCurrentProducts();
+  const realIndex = list.findIndex(p => p.brand === item.brand && p.name === item.name && p.spec === item.spec);
+  if (realIndex !== -1) { list.splice(realIndex, 1); saveProducts(); }
   closeModal();
 }
 window.confirmDelete = confirmDelete;
 
-document.getElementById('deleteModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
+document.getElementById('deleteModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
 // ── FILTER & RENDER ──
 function getFiltered() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   const bf = document.getElementById('brandFilter').value;
-  return products.filter(p => {
+  return getCurrentProducts().filter(p => {
     const matchSearch = !q || p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.spec.toLowerCase().includes(q);
     const matchBrand = bf === 'all' || p.brand === bf;
     return matchSearch && matchBrand;
@@ -780,9 +831,9 @@ function getFiltered() {
 function renderTable() {
   const filtered = getFiltered();
   const tbody = document.getElementById('phoneTableBody');
-  document.getElementById('countLabel').textContent = filtered.length + ' phone' + (filtered.length !== 1 ? 's' : '');
+  document.getElementById('countLabel').textContent = filtered.length + ' item' + (filtered.length !== 1 ? 's' : '');
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><span class="icon">📦</span>No phones found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><span class="icon">📦</span>No items found.</td></tr>`;
     return;
   }
   tbody.innerHTML = filtered.map((p, i) => `
@@ -802,7 +853,7 @@ function escHtml(s) {
 }
 
 function updateBrandFilter() {
-  const brands = [...new Set(products.map(p => p.brand))].sort();
+  const brands = [...new Set(getCurrentProducts().map(p => p.brand))].sort();
   const sel = document.getElementById('brandFilter');
   const current = sel.value;
   sel.innerHTML = '<option value="all">All Brands</option>' +
@@ -810,25 +861,25 @@ function updateBrandFilter() {
 }
 
 function updateStats() {
-  document.getElementById('totalCount').textContent = products.length;
-  document.getElementById('brandCount').textContent = new Set(products.map(p => p.brand)).size;
-  document.getElementById('newCount').textContent = products.filter(p => p.badge === 'New').length;
-  document.getElementById('hotCount').textContent = products.filter(p => p.badge === 'Hot').length;
+  const list = getCurrentProducts();
+  document.getElementById('totalCount').textContent = list.length;
+  document.getElementById('brandCount').textContent = new Set(list.map(p => p.brand)).size;
+  document.getElementById('newCount').textContent = list.filter(p => p.badge === 'New').length;
+  document.getElementById('hotCount').textContent = list.filter(p => p.badge === 'Hot').length;
 }
 
-// ── SEARCH ──
 document.getElementById('searchInput').addEventListener('input', renderTable);
 
-// ── DOWNLOAD BACKUP ──
 function downloadProductsJS() {
-  const lines = products.map(p =>
+  const list = getCurrentProducts();
+  const lines = list.map(p =>
     `  { brand: ${JSON.stringify(p.brand)}, name: ${JSON.stringify(p.name)}, spec: ${JSON.stringify(p.spec)}, price: ${JSON.stringify(p.price)}, badge: ${JSON.stringify(p.badge || '')} }`
   );
   const code = `const products = [\n${lines.join(',\n')}\n];`;
   const blob = new Blob([code], { type: 'text/javascript' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'products-backup.js';
+  a.download = currentCategory + '-backup.js';
   a.click();
 }
 window.downloadProductsJS = downloadProductsJS;

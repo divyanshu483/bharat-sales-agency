@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Collection – Bharat Sales Agency | Tauru</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F47B20;
+    --orange-dark: #C9610F;
+    --green: #7DC242;
+    --green-dark: #5E9B2F;
+    --bg: #1A1A1E;
+    --bg-deep: #141416;
+    --surface: #202026;
+    --card: #26262E;
+    --card-hover: #2E2E38;
+    --border: rgba(244,123,32,0.20);
+    --text: #F0EDE6;
+    --muted: #8A8880;
+    --white: #FFFFFF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Black Ops One", system-ui; overflow-x: hidden;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 68px;
+    background: rgba(20,20,22,0.96); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo-img { height: 48px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(244,123,32,0.3)); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-weight: 600; font-size: 0.92rem; color: var(--muted);
+    text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta { background: var(--orange) !important; color: #fff !important; padding: 7px 20px; border-radius: 6px; }
+  .nav-cta:hover { background: var(--orange-dark) !important; }
+
+  /* Hamburger */
+  .hamburger {
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    width: 44px; height: 44px; background: transparent; border: none; cursor: pointer;
+    gap: 5px; padding: 4px; border-radius: 8px; transition: background .2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hamburger:hover { background: rgba(244,123,32,0.1); }
+  .hamburger span {
+    display: block; width: 24px; height: 2px; background: var(--text);
+    border-radius: 2px; transition: transform .3s, opacity .3s, width .3s; transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobile Drawer */
+  .mobile-menu {
+    display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0;
+    background: rgba(14,14,16,0.98); backdrop-filter: blur(24px);
+    z-index: 190; flex-direction: column; padding: 32px 5%; gap: 8px;
+    transform: translateY(-10px); opacity: 0;
+    transition: transform .3s ease, opacity .3s ease; pointer-events: none;
+  }
+  .mobile-menu.open { display: flex; transform: translateY(0); opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    font-size: 1.3rem; color: var(--text); text-decoration: none;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 14px 0; border-bottom: 1px solid rgba(244,123,32,0.1);
+    transition: color .2s, padding-left .2s; display: flex; align-items: center; gap: 12px;
+  }
+  .mobile-menu a:hover { color: var(--orange); padding-left: 8px; }
+  .mobile-menu a:last-child {
+    background: var(--orange); color: #fff !important; padding: 14px 24px;
+    border-radius: 10px; border-bottom: none; margin-top: 16px;
+    justify-content: center; text-align: center;
+  }
+  .mobile-menu a:last-child:hover { background: var(--orange-dark); padding-left: 24px; }
+  .mobile-menu-divider {
+    font-size: 0.68rem; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-top: 8px; margin-bottom: 4px; padding-bottom: 8px;
+    border-bottom: 1px solid rgba(244,123,32,0.08);
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; padding: 60px 5% 40px;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 100%);
+    text-align: center; border-bottom: 1px solid rgba(244,123,32,0.1);
+  }
+  .header-tricolour {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
+  }
+  .page-title {
+    font-size: clamp(2.2rem, 6vw, 4.5rem); color: var(--white);
+    letter-spacing: 0.02em; margin-bottom: 10px;
+  }
+  .page-title .o { color: var(--orange); }
+  .page-subtitle { color: var(--muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto 30px; }
+
+  /* ── SEARCH & FILTER ── */
+  .controls-wrapper {
+    max-width: 700px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 10;
+  }
+  .search-container { position: relative; width: 100%; }
+  .search-input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    padding: 16px 20px 16px 50px; border-radius: 12px; color: var(--white);
+    font-family: "Black Ops One", system-ui; font-size: 1rem; outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .search-input:focus { border-color: var(--orange); box-shadow: 0 0 15px rgba(244,123,32,0.15); }
+  .search-input::placeholder { color: var(--muted); opacity: 0.7; }
+  .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--muted); }
+
+  .filter-tags {
+    display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 10px;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .filter-tags::-webkit-scrollbar { display: none; }
+  .tag {
+    font-weight: 600; font-size: 0.85rem; letter-spacing: 0.05em;
+    background: var(--card); color: var(--muted);
+    padding: 6px 14px; border-radius: 30px; border: 1px solid transparent;
+    cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tag:hover { color: var(--white); background: var(--card-hover); }
+  .tag.active { background: rgba(125,194,66,0.12); color: var(--green); border-color: rgba(125,194,66,0.4); }
+
+  /* ── PRODUCTS SECTION ── */
+  .products-section { padding: 50px 5% 80px; min-height: 400px; position: relative; z-index: 1; }
+  .results-count {
+    font-size: 0.9rem; font-weight: 600; color: var(--muted);
+    letter-spacing: 0.05em; margin-bottom: 24px; text-transform: uppercase;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 18px;
+  }
+
+  /* Phone Card */
+  .phone-item {
+    background: var(--card); border: 1px solid rgba(244,123,32,0.14);
+    border-radius: 16px; padding: 22px 16px 18px; text-align: center;
+    transition: border-color .25s, transform .25s, box-shadow .25s, background .25s;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .phone-item::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(244,123,32,0.06), transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+  .phone-item:hover { border-color: rgba(244,123,32,0.5); transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,0.45); background: var(--card-hover); }
+  .phone-item:hover::after { opacity: 1; }
+  .phone-item-emoji { font-size: 2.4rem; margin-bottom: 10px; }
+  .phone-item-brand { font-weight: 700; font-size: 0.68rem; color: var(--orange); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px; }
+  .phone-item-name { font-weight: 600; font-size: 0.95rem; color: var(--white); line-height: 1.2; margin-bottom: 6px; }
+  .phone-item-spec { font-size: 0.72rem; color: var(--muted); margin-bottom: 14px; line-height: 1.5; flex-grow: 1; }
+  .phone-item-price { font-weight: 700; font-size: 1.15rem; color: var(--green); margin-bottom: 12px; }
+  .btn-buy {
+    display: block; width: 100%;
+    background: rgba(244,123,32,0.1); border: 1px solid rgba(244,123,32,0.3);
+    color: var(--white); padding: 8px; border-radius: 8px;
+    font-weight: 700; font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none; transition: background 0.2s, border-color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .phone-item:hover .btn-buy { background: var(--orange); border-color: var(--orange); }
+
+  .badge-new, .badge-hot {
+    position: absolute; top: 10px; right: 10px; color: #fff;
+    font-weight: 700; font-size: 0.58rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 3px 7px; border-radius: 4px; z-index: 2;
+  }
+  .badge-new { background: var(--orange); }
+  .badge-hot { background: var(--green); }
+
+  .no-results { text-align: center; grid-column: 1 / -1; padding: 60px 20px; color: var(--muted); font-size: 1rem; }
+  .no-results span { display: block; font-size: 3rem; margin-bottom: 16px; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--bg-deep); border-top: 1px solid var(--border); padding: 48px 5% 24px; }
+  footer::before {
+    content: ''; display: block; height: 3px;
+    background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 32px; flex-wrap: wrap; padding-top: 40px; margin-bottom: 40px;
+  }
+  .footer-desc { font-size: 0.82rem; color: var(--muted); max-width: 270px; line-height: 1.65; }
+  .footer-col h4 { font-weight: 700; font-size: 0.78rem; color: var(--orange); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a { font-size: 0.86rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid rgba(244,123,32,0.12); padding-top: 20px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-size: 0.76rem; color: var(--muted);
+  }
+  .footer-bottom .o { color: var(--orange); }
+  .footer-bottom .g { color: var(--green); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    header { padding: 44px 5% 28px; }
+    .page-title { font-size: clamp(1.9rem, 9vw, 3rem); }
+    .search-input { padding: 14px 16px 14px 46px; font-size: 0.9rem; }
+    .products-section { padding: 32px 4% 60px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .phone-item { padding: 16px 10px 14px; }
+    .phone-item-emoji { font-size: 2rem; }
+    .phone-item-name { font-size: 0.82rem; }
+    .phone-item-price { font-size: 1rem; }
+    .footer-top { flex-direction: column; gap: 28px; }
+  }
+  @media (max-width: 360px) {
+    .products-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 4%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html">
+    <img class="nav-logo-img" src="https://i.ibb.co/1G7hhV1t/851872.jpg" alt="Bharat Sales Agency">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">📱 Mobiles</a></li>
+    <li><a href="electronics.html" style="color:var(--orange)">⚡ Electronics</a></li>
+    <li><a href="index.html#location">Visit Store</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU DRAWER -->
+<div class="mobile-menu" id="mobileMenu" role="navigation">
+  <div class="mobile-menu-divider">Navigation</div>
+  <a href="index.html" onclick="closeMenu()">🏠 Home</a>
+  <a href="products.html" onclick="closeMenu()">📱 Mobiles</a>
+  <a href="electronics.html" onclick="closeMenu()">⚡ Electronics</a>
+  <a href="index.html#location" onclick="closeMenu()">📍 Visit Store</a>
+  <a href="contact.html" onclick="closeMenu()">✉️ Contact Us</a>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-tricolour"></div>
+  <h1 class="page-title">Our <span class="o">Electronics</span></h1>
+  <p class="page-subtitle">Earbuds, smartwatches, chargers, cables, power banks &amp; more — all available at Bharat Sales Agency, Tauru.</p>
+  <div class="controls-wrapper">
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search brands, specs, or models...">
+    </div>
+    <div class="filter-tags" id="filterTags">
+      <button class="tag active" data-filter="all">All</button>
+      <button class="tag" data-filter="apple">Apple</button>
+      <button class="tag" data-filter="samsung">Samsung</button>
+      <button class="tag" data-filter="oneplus">OnePlus</button>
+      <button class="tag" data-filter="redmi">Redmi</button>
+      <button class="tag" data-filter="realme">Realme</button>
+      <button class="tag" data-filter="vivo">Vivo</button>
+      <button class="tag" data-filter="oppo">OPPO</button>
+    </div>
+  </div>
+</header>
+
+<!-- PRODUCTS -->
+<section class="products-section">
+  <div class="results-count" id="resultsCount">Showing all items</div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <h3 style="font-size:2rem; color:var(--white);"><span style="color:var(--orange);">Bharat</span> <span style="color:var(--green);">Sales</span></h3>
+      <p class="footer-desc">Tauru's most trusted mobile phone store. All brands, best prices, expert service — open 9 AM to 9 PM, every day.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#why">Why Choose Us</a></li>
+        <li><a href="index.html#location">Visit Us</a></li>
+        <li><a href="tel:+919671115715">Call Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Brands We Sell</h4>
+      <ul>
+        <li><a href="#">Apple · Samsung</a></li>
+        <li><a href="#">OnePlus · Xiaomi · Redmi</a></li>
+        <li><a href="#">Realme · Vivo · OPPO</a></li>
+        <li><a href="#">Motorola · Nokia · iQOO · Nothing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919671115715">+91 96711 15715</a></li>
+        <li><a href="#">Old Anaj Mandi, Tauru</a></li>
+        <li><a href="#">Haryana – 122105</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 <span class="o">Bharat</span> <span class="g">Sales Agency</span>, Tauru, Haryana. All rights reserved.</div>
+    <div>Made with <span class="o">♥</span> for Tauru</div>
+  </div>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB6g600ANsokIBdKSr6RgA1RodqHY5NUbM",
+    authDomain: "bharatsalesagency-c54e9.firebaseapp.com",
+    databaseURL: "https://bharatsalesagency-c54e9-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "bharatsalesagency-c54e9",
+    storageBucket: "bharatsalesagency-c54e9.firebasestorage.app",
+    messagingSenderId: "173287323539",
+    appId: "1:173287323539:web:81132a03f15bc473699a66"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const productsRef = ref(db, 'electronics');
+
+  // ── HAMBURGER MENU ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function openMenu() {
+    hamburger.classList.add('open'); mobileMenu.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    hamburger.classList.remove('open'); mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false'); document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => { if (mobileMenu.classList.contains('open')) closeMenu(); else openMenu(); });
+  mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMenu(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+  const grid = document.getElementById('productsGrid');
+  const searchInput = document.getElementById('searchInput');
+  const tags = document.querySelectorAll('.tag');
+  const countDisplay = document.getElementById('resultsCount');
+
+  let activeFilter = 'all';
+  let searchQuery = '';
+  let products = [];
+
+  function renderProducts() {
+    grid.innerHTML = '';
+    const filtered = products.filter(item => {
+      const matchSearch = item.name.toLowerCase().includes(searchQuery) ||
+                          item.brand.toLowerCase().includes(searchQuery) ||
+                          item.spec.toLowerCase().includes(searchQuery);
+      let matchCategory = true;
+      if (activeFilter !== 'all') {
+        if (activeFilter === 'mi') {
+          matchCategory = item.brand.toLowerCase() === 'mi' || item.brand.toLowerCase() === 'redmi' || item.brand.toLowerCase() === 'xiaomi';
+        } else if (activeFilter === 'boat') {
+          matchCategory = item.brand.toLowerCase() === 'boat';
+        } else if (activeFilter === 'other') {
+          const known = ['samsung','sony','boat','jbl','mi','redmi','xiaomi','lg','philips','panasonic'];
+          matchCategory = !known.includes(item.brand.toLowerCase());
+        } else {
+          matchCategory = item.brand.toLowerCase() === activeFilter;
+        }
+      }
+      return matchSearch && matchCategory;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="no-results"><span>📦</span>No electronics found. Try a different search!</div>`;
+      countDisplay.innerText = "No models found";
+      return;
+    }
+
+    countDisplay.innerText = `Showing ${filtered.length} device${filtered.length !== 1 ? 's' : ''}`;
+
+    filtered.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'phone-item';
+      card.style.transitionDelay = (index % 4) * 40 + 'ms';
+      let badgeHTML = '';
+      if (item.badge === 'New') badgeHTML = `<span class="badge-new">New</span>`;
+      if (item.badge === 'Hot') badgeHTML = `<span class="badge-hot">Hot</span>`;
+      card.innerHTML = `
+        ${badgeHTML}
+        <div>
+          <div class="phone-item-emoji">⚡</div>
+          <div class="phone-item-brand">${item.brand}</div>
+          <div class="phone-item-name">${item.name}</div>
+          <div class="phone-item-spec">${item.spec}</div>
+        </div>
+        <div>
+          <div class="phone-item-price">${item.price}</div>
+          <a href="tel:+919671115715" class="btn-buy">Inquire Price</a>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // ── LOAD FROM FIREBASE (live sync across ALL devices) ──
+  countDisplay.innerText = 'Loading...';
+  onValue(productsRef, (snapshot) => {
+    const data = snapshot.val();
+    products = (data && Array.isArray(data)) ? data : [];
+    renderProducts();
+  });
+
+  searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value.toLowerCase();
+    renderProducts();
+  });
+
+  tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      tags.forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+      activeFilter = tag.getAttribute('data-filter');
+      renderProducts();
+    });
+  });
+</script>
+</body>
+</html>
